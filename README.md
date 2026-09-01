@@ -1,0 +1,2 @@
+# CPU1_CPU2_CM
+CPU1_CPU2_CM_IPC_ethercat_pmsm
