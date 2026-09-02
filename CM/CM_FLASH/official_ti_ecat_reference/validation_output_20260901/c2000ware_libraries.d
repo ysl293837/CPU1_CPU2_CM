@@ -1,0 +1,12 @@
+# FIXED
+
+official_ti_ecat_reference/validation_output_20260901/c2000ware_libraries.obj: ../official_ti_ecat_reference/validation_output_20260901/c2000ware_libraries.c
+official_ti_ecat_reference/validation_output_20260901/c2000ware_libraries.obj: ../official_ti_ecat_reference/validation_output_20260901/c2000ware_libraries.h
+official_ti_ecat_reference/validation_output_20260901/c2000ware_libraries.obj: ../official_ti_ecat_reference/validation_output_20260901/board.h
+
+../official_ti_ecat_reference/validation_output_20260901/c2000ware_libraries.c:
+
+../official_ti_ecat_reference/validation_output_20260901/c2000ware_libraries.h:
+
+../official_ti_ecat_reference/validation_output_20260901/board.h:
+

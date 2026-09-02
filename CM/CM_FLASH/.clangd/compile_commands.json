@@ -1,0 +1,17 @@
+[
+   {
+      "directory" : "C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/CM_FLASH",
+      "command"   : "clang++ -I\"C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM\" -I\"C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/device\" -I\"C:/ti/c2000/C2000Ware_26_00_00_00/driverlib/f2838x/driverlib_cm/\" -I\"C:/ti/ti-cgt-arm_20.2.7.LTS/include\" -DDEBUG -D_FLASH -xc",
+      "file"      : "C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/device/cm.c"
+   },
+   {
+      "directory" : "C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/CM_FLASH",
+      "command"   : "clang++ -I\"C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM\" -I\"C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/device\" -I\"C:/ti/c2000/C2000Ware_26_00_00_00/driverlib/f2838x/driverlib_cm/\" -I\"C:/ti/ti-cgt-arm_20.2.7.LTS/include\" -DDEBUG -D_FLASH -xc",
+      "file"      : "C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/startup_cm.c"
+   },
+   {
+      "directory" : "C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/CM_FLASH",
+      "command"   : "clang++ -I\"C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM\" -I\"C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/device\" -I\"C:/ti/c2000/C2000Ware_26_00_00_00/driverlib/f2838x/driverlib_cm/\" -I\"C:/ti/ti-cgt-arm_20.2.7.LTS/include\" -DDEBUG -D_FLASH -xc",
+      "file"      : "C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/empty_driverlib_main_cm.c"
+   }
+]

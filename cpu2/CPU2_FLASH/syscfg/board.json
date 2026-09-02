@@ -1,0 +1,12 @@
+{
+    "interruptInfo" : [
+        {
+            "interruptName": "IPC_0",
+            "interruptHandler": "IPC_0_ISR"
+        },
+        {
+            "interruptName": "INT_mySCI1_RX",
+            "interruptHandler": "INT_mySCI1_RX_ISR"
+        }
+    ]
+}

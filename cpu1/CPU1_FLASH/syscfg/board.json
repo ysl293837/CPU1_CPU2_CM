@@ -1,0 +1,8 @@
+{
+    "interruptInfo" : [
+        {
+            "interruptName": "IPC_1",
+            "interruptHandler": "IPC_1_ISR"
+        }
+    ]
+}

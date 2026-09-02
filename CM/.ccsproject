@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?ccsproject version="1.0"?>
+<projectOptions>
+	<ccsVariant value="50:Theia-based"/>
+	<ccsVersion value="70.5.0"/>
+	<deviceFamily value="TMS470"/>
+	<executableActions value=""/>
+	<createSlaveProjects value=""/>
+	<templateProperties value="id=empty_driverlib_project_cm.projectspec.Driverlib Empty CM Example CCS Project"/>
+	<origin value="C:/Users/yangshilin/Desktop/DSP_PMSM_project/TEST/me/c28388_4.0/CM/Driverlib Empty CM Example CCS Project"/>
+	<filesToOpen value=""/>
+	<activeTargetConfiguration value="TMS320F28388D.ccxml"/>
+	<isTargetConfigurationManual value="true"/>
+</projectOptions>

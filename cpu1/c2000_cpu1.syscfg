@@ -1,0 +1,259 @@
+/**
+ * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
+ * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
+ * @cliArgs --device "F2838x" --part "F2838x_176pin" --package "176pin" --context "CPU1" --product "C:/ti/c2000/C2000Ware_26_00_00_00/.metadata/sdk.json"
+ * @v2CliArgs --device "TMS320F28388D" --package "176pin" --context "CPU1" --product "C:/ti/c2000/C2000Ware_26_00_00_00/.metadata/sdk.json"
+ * @versions {"tool":"1.27.0+4565"}
+ */
+
+/**
+ * Import the modules used in this configuration.
+ */
+const adc            = scripting.addModule("/driverlib/adc.js", {}, false);
+const adc1           = adc.addInstance();
+const device_support = scripting.addModule("/driverlib/device_support.js");
+const epwm           = scripting.addModule("/driverlib/epwm.js", {}, false);
+const epwm1          = epwm.addInstance();
+const epwm2          = epwm.addInstance();
+const epwm3          = epwm.addInstance();
+const eqep           = scripting.addModule("/driverlib/eqep.js", {}, false);
+const eqep1          = eqep.addInstance();
+const gpio           = scripting.addModule("/driverlib/gpio.js", {}, false);
+const gpio1          = gpio.addInstance();
+const gpio2          = gpio.addInstance();
+const gpio3          = gpio.addInstance();
+const gpio4          = gpio.addInstance();
+const ipc            = scripting.addModule("/driverlib/ipc.js");
+const sysctl         = scripting.addModule("/driverlib/sysctl.js");
+
+/**
+ * Write custom configuration values to the imported modules.
+ */
+adc1.$name             = "myADC1";
+adc1.adcClockPrescaler = "ADC_CLK_DIV_4_0";
+
+// Use the external 25 MHz crystal as the AUXPLL input.
+const auxOscSource       = system.clockTree["AUXOSCCLKSRCSEL"];
+auxOscSource.inputSelect = "X1_XTAL";
+
+// AUXPLL = 25 MHz / 1 * 20 / 1 = 500 MHz raw clock.
+const auxRefDivider       = system.clockTree["AUX_REFDIV"];
+auxRefDivider.divideValue = 1;
+const auxMultiplier       = system.clockTree["AUX_IMULT"];
+auxMultiplier.multiplyValue = 20;
+const auxOutputDivider       = system.clockTree["AUX_ODIV"];
+auxOutputDivider.divideValue = 1;
+const auxPllSource       = system.clockTree["AUX_PLLEN"];
+auxPllSource.inputSelect = "AUXRAWCLK";
+const auxClockDivider       = system.clockTree["AUXCLKDIVSEL"];
+auxClockDivider.divideValue = 1;
+
+const ethernetDivider       = system.clockTree["ENETDIV"];
+ethernetDivider.divideValue = 4;
+
+// The TI EtherCAT example intentionally uses a 500 MHz AUXPLL raw clock.
+// SysConfig 1.27.0 incorrectly limits these F2838x nodes to 400 MHz.
+["AUXRAWCLK", "AUXPLLRAWCLK", "AUXPLLCLK", "ETHERCATCLK"].forEach((name) => {
+    if (system.clockTree[name] !== undefined) {
+        system.clockTree[name].$ipInstance.Max = 600;
+    }
+});
+
+// CMCLK = AUXPLLRAWCLK / 4 = 125 MHz.
+const cmSource       = system.clockTree["CMDIVSRCSEL"];
+cmSource.inputSelect = "AUXPLLRAWCLK";
+const cmDivider       = system.clockTree["CMCLKDIV"];
+cmDivider.divideValue = 4;
+
+// ECAT = AUXPLLRAWCLK / 5 = 100 MHz; PHYCLKEN remains enabled.
+const ecatSource       = system.clockTree["DIVSRCSEL"];
+ecatSource.inputSelect = "AUXPLLRAWCLK";
+const ecatDivider       = system.clockTree["ECATDIV"];
+ecatDivider.divideValue = 5;
+
+const divider10       = system.clockTree["EPWMCLKDIV"];
+divider10.divideValue = 1;
+
+epwm1.$name                                                      = "myEPWM1";
+epwm1.useCase                                                    = "CUSTOM";
+epwm1.useInterfacePins                                           = ["EPWM#A","EPWM#B"];
+epwm1.epwmTimebase_hsClockDiv                                    = "EPWM_HSCLOCK_DIVIDER_1";
+epwm1.epwmTimebase_periodLink                                    = "EPWM_LINK_WITH_EPWM_1";
+epwm1.epwmCounterCompare_cmpA                                    = 5000;
+epwm1.epwmTimebase_syncOutPulseMode                              = ["EPWM_SYNC_OUT_PULSE_ON_CNTR_ZERO"];
+epwm1.epwmActionQualifier_EPWM_AQ_OUTPUT_A_shadowMode            = true;
+epwm1.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_UP_CMPA   = "EPWM_AQ_OUTPUT_LOW";
+epwm1.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_DOWN_CMPA = "EPWM_AQ_OUTPUT_HIGH";
+epwm1.epwmCounterCompare_enableShadowLoadModeCMPB                = false;
+epwm1.epwmTimebase_counterMode                                   = "EPWM_COUNTER_MODE_UP_DOWN";
+epwm1.epwmDeadband_enableRED                                     = true;
+epwm1.epwmDeadband_enableFED                                     = true;
+epwm1.epwmDeadband_polarityFED                                   = "EPWM_DB_POLARITY_ACTIVE_LOW";
+epwm1.epwmDeadband_delayFED                                      = 50;
+epwm1.epwmDeadband_delayRED                                      = 50;
+epwm1.epwmCounterCompare_cmpB                                    = 1;
+epwm1.epwmTimebase_period                                        = 10000;
+epwm1.epwmEventTrigger_EPWM_SOC_A_triggerEnable                  = true;
+epwm1.epwmEventTrigger_EPWM_SOC_A_triggerSource                  = "EPWM_SOC_TBCTR_ZERO";
+epwm1.epwmEventTrigger_EPWM_SOC_A_triggerEventPrescalar          = "1";
+epwm1.epwmTimebase_syncInPulseSource                             = "EPWM_SYNC_IN_PULSE_SRC_DISABLE";
+epwm1.epwmEventTrigger_enableInterrupt                           = true;
+epwm1.epwmEventTrigger_interruptSource                           = "EPWM_INT_TBCTR_ZERO";
+epwm1.epwmEventTrigger_interruptEventCount                       = "1";
+epwm1.epwm.$assign                                               = "EPWM1";
+epwm1.epwm.epwm_aPin.$assign                                     = "GPIO0";
+epwm1.epwm.epwm_bPin.$assign                                     = "GPIO1";
+
+epwm2.$name                                                      = "myEPWM2";
+epwm2.useCase                                                    = "CUSTOM";
+epwm2.useInterfacePins                                           = ["EPWM#A","EPWM#B"];
+epwm2.epwmTimebase_hsClockDiv                                    = "EPWM_HSCLOCK_DIVIDER_1";
+epwm2.epwmTimebase_periodLink                                    = "EPWM_LINK_WITH_EPWM_1";
+epwm2.epwmCounterCompare_cmpA                                    = 5000;
+epwm2.epwmActionQualifier_EPWM_AQ_OUTPUT_A_shadowMode            = true;
+epwm2.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_UP_CMPA   = "EPWM_AQ_OUTPUT_LOW";
+epwm2.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_DOWN_CMPA = "EPWM_AQ_OUTPUT_HIGH";
+epwm2.epwmCounterCompare_enableShadowLoadModeCMPB                = false;
+epwm2.epwmTimebase_counterMode                                   = "EPWM_COUNTER_MODE_UP_DOWN";
+epwm2.epwmDeadband_enableRED                                     = true;
+epwm2.epwmDeadband_enableFED                                     = true;
+epwm2.epwmDeadband_polarityFED                                   = "EPWM_DB_POLARITY_ACTIVE_LOW";
+epwm2.epwmDeadband_delayFED                                      = 50;
+epwm2.epwmDeadband_delayRED                                      = 50;
+epwm2.epwmCounterCompare_cmpB                                    = 1;
+epwm2.epwmTimebase_period                                        = 10000;
+epwm2.epwmTimebase_phaseEnable                                   = true;
+epwm2.epwmTimebase_counterModeAfterSync                          = "EPWM_COUNT_MODE_UP_AFTER_SYNC";
+epwm2.epwmTimebase_syncOutPulseMode                              = ["EPWM_SYNC_OUT_PULSE_ON_CNTR_ZERO"];
+epwm2.epwm.$assign                                               = "EPWM2";
+
+epwm3.$name                                                      = "myEPWM3";
+epwm3.useCase                                                    = "CUSTOM";
+epwm3.useInterfacePins                                           = ["EPWM#A","EPWM#B"];
+epwm3.epwmTimebase_hsClockDiv                                    = "EPWM_HSCLOCK_DIVIDER_1";
+epwm3.epwmTimebase_periodLink                                    = "EPWM_LINK_WITH_EPWM_1";
+epwm3.epwmCounterCompare_cmpA                                    = 5000;
+epwm3.epwmTimebase_syncOutPulseMode                              = ["EPWM_SYNC_OUT_PULSE_ON_CNTR_ZERO"];
+epwm3.epwmActionQualifier_EPWM_AQ_OUTPUT_A_shadowMode            = true;
+epwm3.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_UP_CMPA   = "EPWM_AQ_OUTPUT_LOW";
+epwm3.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_DOWN_CMPA = "EPWM_AQ_OUTPUT_HIGH";
+epwm3.epwmCounterCompare_enableShadowLoadModeCMPB                = false;
+epwm3.epwmTimebase_counterMode                                   = "EPWM_COUNTER_MODE_UP_DOWN";
+epwm3.epwmDeadband_enableRED                                     = true;
+epwm3.epwmDeadband_enableFED                                     = true;
+epwm3.epwmDeadband_delayFED                                      = 50;
+epwm3.epwmDeadband_delayRED                                      = 50;
+epwm3.epwmCounterCompare_cmpB                                    = 1;
+epwm3.epwmTimebase_period                                        = 10000;
+epwm3.epwmDeadband_polarityFED                                   = "EPWM_DB_POLARITY_ACTIVE_LOW";
+epwm3.epwm.$assign                                               = "EPWM3";
+
+eqep1.$name                       = "myEQEP0";
+eqep1.captureConfig               = true;
+eqep1.enableCapture               = true;
+eqep1.emulationMode               = "EQEP_EMULATIONMODE_RUNFREE";
+eqep1.enableModule                = true;
+eqep1.positionCounterMax          = 9999;
+eqep1.evntPrescale                = "EQEP_UNIT_POS_EVNT_DIV_4";
+eqep1.eqep.$assign                = "EQEP1";
+eqep1.eqep.eqep_aPin.$assign      = "GPIO20";
+eqep1.eqep.eqep_bPin.$assign      = "GPIO21";
+eqep1.eqep.eqep_strobePin.$assign = "GPIO22";
+eqep1.eqep.eqep_indexPin.$assign  = "GPIO23";
+
+gpio1.padConfig       = "PULLUP";
+gpio1.$name           = "XINT1";
+gpio1.gpioPin.$assign = "GPIO16";
+
+gpio2.padConfig       = "PULLUP";
+gpio2.$name           = "XINT2";
+gpio2.gpioPin.$assign = "GPIO17";
+
+gpio3.padConfig       = "PULLUP";
+gpio3.$name           = "XINT3";
+gpio3.gpioPin.$assign = "GPIO18";
+
+gpio4.padConfig       = "PULLUP";
+gpio4.$name           = "XINT4";
+gpio4.gpioPin.$assign = "GPIO19";
+
+ipc.enableInterrupt0        = true;
+ipc.ipcRegisterFlag         = ["IPC_FLAG0","IPC_FLAG31"];
+ipc.registerInterrupts      = ["1"];
+ipc.ipcInt1.enableInterrupt = true;
+
+/**
+ * These are the reserved peripherals and settings in this configuration
+ */
+const ECAT1          = scripting.addPeripheral("ECAT");
+ECAT1.$name          = "MyECAT1";
+ECAT1.ESC_GPI0.$used = false;
+ECAT1.ESC_GPI1.$used = false;
+ECAT1.ESC_GPI2.$used = false;
+ECAT1.ESC_GPI3.$used = false;
+ECAT1.ESC_GPI4.$used = false;
+ECAT1.ESC_GPI5.$used = false;
+ECAT1.ESC_LATCH0.$used = false;
+ECAT1.ESC_LATCH1.$used = false;
+
+/**
+ * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
+ * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
+ * re-solve from scratch.
+ */
+epwm2.epwm.epwm_aPin.$suggestSolution       = "GPIO2";
+epwm2.epwm.epwm_bPin.$suggestSolution       = "GPIO3";
+epwm3.epwm.epwm_aPin.$suggestSolution       = "GPIO4";
+epwm3.epwm.epwm_bPin.$suggestSolution       = "GPIO5";
+ECAT1.$suggestSolution                      = "ECAT";
+ECAT1.ESC_I2C_SDA.$suggestSolution          = "GPIO40";
+ECAT1.ESC_I2C_SCL.$suggestSolution          = "GPIO41";
+ECAT1.ESC_TX1_DATA3.$suggestSolution        = "GPIO72";
+ECAT1.ESC_TX1_DATA2.$suggestSolution        = "GPIO73";
+ECAT1.ESC_TX1_DATA1.$suggestSolution        = "GPIO74";
+ECAT1.ESC_TX1_DATA0.$suggestSolution        = "GPIO75";
+ECAT1.ESC_SYNC0.$suggestSolution            = "GPIO34";
+ECAT1.ESC_SYNC1.$suggestSolution            = "GPIO35";
+ECAT1.ESC_MDIO_CLK.$suggestSolution         = "GPIO26";
+ECAT1.ESC_MDIO_DATA.$suggestSolution        = "GPIO27";
+ECAT1.ESC_PHY_CLK.$suggestSolution          = "GPIO48";
+ECAT1.ESC_RX1_CLK.$suggestSolution          = "GPIO69";
+ECAT1.ESC_RX1_DV.$suggestSolution           = "GPIO70";
+ECAT1.ESC_RX1_ERR.$suggestSolution          = "GPIO71";
+ECAT1.ESC_RX1_DATA0.$suggestSolution        = "GPIO63";
+ECAT1.ESC_RX1_DATA1.$suggestSolution        = "GPIO64";
+ECAT1.ESC_RX1_DATA2.$suggestSolution        = "GPIO65";
+ECAT1.ESC_RX1_DATA3.$suggestSolution        = "GPIO66";
+ECAT1.ESC_PHY_RESETn.$suggestSolution       = "GPIO76";
+ECAT1.ESC_LED_RUN.$suggestSolution          = "GPIO61";
+ECAT1.ESC_LED_ERR.$suggestSolution          = "GPIO60";
+ECAT1.ESC_LED_STATE_RUN.$suggestSolution    = "GPIO62";
+ECAT1.ESC_LED_LINK0_ACTIVE.$suggestSolution = "GPIO58";
+ECAT1.ESC_LED_LINK1_ACTIVE.$suggestSolution = "GPIO59";
+ECAT1.ESC_RX0_CLK.$suggestSolution          = "GPIO77";
+ECAT1.ESC_RX0_DV.$suggestSolution           = "GPIO78";
+ECAT1.ESC_RX0_ERR.$suggestSolution          = "GPIO79";
+ECAT1.ESC_RX0_DATA0.$suggestSolution        = "GPIO80";
+ECAT1.ESC_RX0_DATA1.$suggestSolution        = "GPIO81";
+ECAT1.ESC_RX0_DATA2.$suggestSolution        = "GPIO82";
+ECAT1.ESC_RX0_DATA3.$suggestSolution        = "GPIO83";
+ECAT1.ESC_TX0_ENA.$suggestSolution          = "GPIO84";
+ECAT1.ESC_TX0_CLK.$suggestSolution          = "GPIO85";
+ECAT1.ESC_TX0_DATA0.$suggestSolution        = "GPIO87";
+ECAT1.ESC_TX0_DATA1.$suggestSolution        = "GPIO88";
+ECAT1.ESC_TX0_DATA2.$suggestSolution        = "GPIO89";
+ECAT1.ESC_TX0_DATA3.$suggestSolution        = "GPIO90";
+ECAT1.ESC_TX1_ENA.$suggestSolution          = "GPIO45";
+ECAT1.ESC_TX1_CLK.$suggestSolution          = "GPIO44";
+ECAT1.ESC_PHY0_LINKSTATUS.$suggestSolution  = "GPIO86";
+ECAT1.ESC_PHY1_LINKSTATUS.$suggestSolution  = "GPIO68";
+ECAT1.ESC_GPI6.$suggestSolution             = "GPIO6";
+ECAT1.ESC_GPI7.$suggestSolution             = "GPIO7";
+ECAT1.ESC_GPO0.$suggestSolution             = "GPIO8";
+ECAT1.ESC_GPO1.$suggestSolution             = "GPIO9";
+ECAT1.ESC_GPO2.$suggestSolution             = "GPIO10";
+ECAT1.ESC_GPO3.$suggestSolution             = "GPIO11";
+ECAT1.ESC_GPO4.$suggestSolution             = "GPIO12";
+ECAT1.ESC_GPO5.$suggestSolution             = "GPIO13";
+ECAT1.ESC_GPO6.$suggestSolution             = "GPIO14";
+ECAT1.ESC_GPO7.$suggestSolution             = "GPIO15";

@@ -1,0 +1,13 @@
+APP/Closed_loop/speed_pi.obj: ../APP/Closed_loop/speed_pi.c
+APP/Closed_loop/speed_pi.obj: ..\APP\Closed_loop\speed_pi.h
+APP/Closed_loop/speed_pi.obj: E:/CCS20/CCS20.5.0/ccs/tools/compiler/ti-cgt-c2000_25.11.0.LTS/include/stdbool.h
+APP/Closed_loop/speed_pi.obj: E:/CCS20/CCS20.5.0/ccs/tools/compiler/ti-cgt-c2000_25.11.0.LTS/include/_ti_config.h
+APP/Closed_loop/speed_pi.obj: E:/CCS20/CCS20.5.0/ccs/tools/compiler/ti-cgt-c2000_25.11.0.LTS/include/linkage.h
+APP/Closed_loop/speed_pi.obj: E:/CCS20/CCS20.5.0/ccs/tools/compiler/ti-cgt-c2000_25.11.0.LTS/include/stdint.h
+APP/Closed_loop/speed_pi.obj: E:/CCS20/CCS20.5.0/ccs/tools/compiler/ti-cgt-c2000_25.11.0.LTS/include/_stdint40.h
+APP/Closed_loop/speed_pi.obj: E:/CCS20/CCS20.5.0/ccs/tools/compiler/ti-cgt-c2000_25.11.0.LTS/include/sys/stdint.h
+APP/Closed_loop/speed_pi.obj: E:/CCS20/CCS20.5.0/ccs/tools/compiler/ti-cgt-c2000_25.11.0.LTS/include/sys/cdefs.h
+APP/Closed_loop/speed_pi.obj: E:/CCS20/CCS20.5.0/ccs/tools/compiler/ti-cgt-c2000_25.11.0.LTS/include/sys/_types.h
+APP/Closed_loop/speed_pi.obj: E:/CCS20/CCS20.5.0/ccs/tools/compiler/ti-cgt-c2000_25.11.0.LTS/include/machine/_types.h
+APP/Closed_loop/speed_pi.obj: E:/CCS20/CCS20.5.0/ccs/tools/compiler/ti-cgt-c2000_25.11.0.LTS/include/machine/_stdint.h
+APP/Closed_loop/speed_pi.obj: E:/CCS20/CCS20.5.0/ccs/tools/compiler/ti-cgt-c2000_25.11.0.LTS/include/sys/_stdint.h

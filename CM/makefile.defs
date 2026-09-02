@@ -1,0 +1,25 @@
+# Persistent CM EtherCAT build additions. CCS includes this file after its generated makefiles.
+
+CM_ECAT_ROOT := C:/ti/c2000/C2000Ware_26_00_00_00/libraries/communications/Ethercat/f2838x
+CM_ECAT_HAL_SRC := $(CM_ECAT_ROOT)/source/ethercat_slave_cm_hal.c
+CM_ECAT_HAL_INC := $(CM_ECAT_ROOT)/include
+CM_ECAT_OBJ := ./APP/ecat/ethercat_slave_cm_hal.obj
+CM_ECAT_DEP := ./APP/ecat/ethercat_slave_cm_hal.d
+
+# Make the official CM HAL header visible to the generated CM compile rule.
+GEN_OPTS__FLAG += --include_path="$(CM_ECAT_HAL_INC)"
+
+C_DEPS += \
+$(CM_ECAT_DEP)
+
+OBJS += \
+$(CM_ECAT_OBJ)
+
+ORDERED_OBJS += \
+"$(CM_ECAT_OBJ)"
+
+$(CM_ECAT_OBJ): $(CM_ECAT_HAL_SRC)
+	@echo 'Arm Compiler - building official EtherCAT CM HAL: "$<"'
+	"C:/ti/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=none -me -Ooff --include_path="C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM" --include_path="C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/device" --include_path="$(CM_ECAT_HAL_INC)" --include_path="C:/ti/c2000/C2000Ware_26_00_00_00/driverlib/f2838x/driverlib_cm/" --include_path="C:/ti/ti-cgt-arm_20.2.7.LTS/include" --define=DEBUG --define=_FLASH --diag_warning=225 --diag_wrap=off --display_error_number --gen_func_subsections=on --preproc_with_compile --preproc_dependency="APP/ecat/ethercat_slave_cm_hal.d_raw" --obj_directory="APP/ecat" "$<"
+	@echo 'Finished official EtherCAT CM HAL'
+	@echo ' '

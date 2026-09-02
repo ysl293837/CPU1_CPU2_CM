@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Driverlib Empty Dual Example CCS Project",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "Driverlib Empty Dual Example CCS Project",
+                "resourceId": "/Driverlib Empty Dual Example CCS Project"
+            },
+            "launchSettings": {
+                "coresToLoadForProjectLaunch": [
+                    "C28xx_CPU1"
+                ]
+            }
+        },
+        {
+            "name": "empty_c28x_dual_driverlib_project_cpu2",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "empty_c28x_dual_driverlib_project_cpu2",
+                "resourceId": "/empty_c28x_dual_driverlib_project_cpu2"
+            }
+        }
+    ]
+}
