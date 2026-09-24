@@ -1,10 +1,10 @@
 ******************************************************************************
                   TI ARM Linker PC v20.2.7                     
 ******************************************************************************
->> Linked Wed Sep  2 11:23:20 2026
+>> Linked Wed Sep  2 17:50:36 2026
 
 OUTPUT FILE NAME:   <Driverlib Empty CM Example CCS Project.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0020145d
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00208199
 
 
 MEMORY CONFIGURATION
@@ -12,9 +12,7 @@ MEMORY CONFIGURATION
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
   CMBANK0_RESETISR      00200000   00000008  00000006  00000002  RWIX
-  CMBANK0_SECTOR0       00200008   00003ff8  000016fe  000028fa  RWIX
-  CMBANK0_SECTOR1       00204000   00004000  00000000  00004000  RWIX
-  CMBANK0_SECTOR2       00208000   00004000  00000000  00004000  RWIX
+  CMBANK0_SECTOR0_1_2   00200008   0000bff7  00008a14  000035e3  RWIX
   CMBANK0_SECTOR3       0020c000   00004000  00000000  00004000  RWIX
   CMBANK0_SECTOR4       00210000   00010000  00000000  00010000  RWIX
   CMBANK0_SECTOR5       00220000   00010000  00000000  00010000  RWIX
@@ -26,17 +24,19 @@ MEMORY CONFIGURATION
   CMBANK0_SECTOR11      00274000   00004000  00000000  00004000  RWIX
   CMBANK0_SECTOR12      00278000   00004000  00000000  00004000  RWIX
   CMBANK0_SECTOR13      0027c000   00004000  00000000  00004000  RWIX
-  C1RAM                 1fffc000   00002000  00000200  00001e00  RWIX
-  C0RAM                 1fffe000   00002000  00000158  00001ea8  RWIX
+  C1RAM                 1fffc000   00001fff  00000200  00001dff  RWIX
+  C0RAM                 1fffe000   00001fff  00000000  00001fff  RWIX
   BOOT_RSVD             20000000   00000800  00000000  00000800  RWIX
-  S0RAM                 20000800   00003800  00000140  000036c0  RWIX
-  S1RAM                 20004000   00004000  00000000  00004000  RWIX
-  S2RAM                 20008000   00004000  00000000  00004000  RWIX
-  S3RAM                 2000c000   00004000  000000b8  00003f48  RWIX
-  E0RAM                 20010000   00004000  00000000  00004000  RWIX
-  CPU1TOCMMSGRAM0       20080000   00000800  00000110  000006f0  RWIX
+  S0RAM                 20000800   000037ff  00000298  00003567  RWIX
+  S1RAM                 20004000   00003fff  00000000  00003fff  RWIX
+  S2RAM                 20008000   00003fff  00000400  00003bff  RWIX
+  S3RAM                 2000c000   00003fff  00000893  0000376c  RWIX
+  E0RAM                 20010000   00003fff  00000000  00003fff  RWIX
+  CPU1TOCMMSGRAM0       20080000   00000400  00000110  000002f0  RWIX
+  CPU1TOCMMSGRAM0_ECAT  20080400   00000400  00000000  00000400  RWIX
   CPU1TOCMMSGRAM1       20080800   00000800  00000000  00000800  RWIX
-  CMTOCPU1MSGRAM0       20082000   00000800  00000110  000006f0  RWIX
+  CMTOCPU1MSGRAM0       20082000   00000400  00000110  000002f0  RWIX
+  CMTOCPU1MSGRAM0_ECAT  20082400   00000400  00000000  00000400  RWIX
   CMTOCPU1MSGRAM1       20082800   00000800  00000000  00000800  RWIX
   CPU2TOCMMSGRAM0       20084000   00000800  00000110  000006f0  RWIX
   CPU2TOCMMSGRAM1       20084800   00000800  00000000  00000800  RWIX
@@ -48,26 +48,27 @@ SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00200000    00200000    00000006   00000006    r-x
+00200000    00200000    00000c00   00000c00    r-x
   00200000    00200000    00000006   00000006    r-x .resetisr
-00200170    00200170    00000290   00000290    r-x
-  00200170    00200170    00000290   00000290    r-x .text.1
-00200400    00200400    00000140   00000000    rw-
-  00200400    00200400    00000140   00000000    rw- .vftable
-00200540    00200540    00001158   00001158    r-x
-  00200540    00200540    000010ce   000010ce    r-x .text.2
-  00201610    00201610    00000088   00000088    r-- .const
-002016a0    002016a0    00000080   00000080    r--
-  002016a0    002016a0    00000080   00000080    r-- .cinit
+  00200008    00200008    0000097c   0000097c    r-- .const
+  00200984    00200984    0000027c   0000027c    r-x .text.1
+00200c00    00200c00    00000140   00000000    rw-
+  00200c00    00200c00    00000140   00000000    rw- .vftable
+00200d40    00200d40    00007874   00007874    r-x
+  00200d40    00200d40    00007874   00007874    r-x .text.2
+00208718    00208718    00000310   00000310    r--
+  00208718    00208718    00000310   00000310    r-- .cinit
 1fffc000    1fffc000    00000200   00000000    rw-
   1fffc000    1fffc000    00000200   00000000    rw- .stack
-1fffe000    00200010    00000158   00000158    r-x
-  1fffe000    00200010    00000158   00000158    r-x .TI.ramfunc
 20000800    20000800    00000140   00000000    rw-
   20000800    20000800    00000140   00000000    rw- .vtable
-2000c000    2000c000    000000b8   00000000    rw-
-  2000c000    2000c000    0000009c   00000000    rw- .data
-  2000c09c    2000c09c    0000001c   00000000    rw- .bss
+20000940    002085c0    00000158   00000158    r-x
+  20000940    002085c0    00000158   00000158    r-x .TI.ramfunc
+20008000    20008000    00000400   00000000    rw-
+  20008000    20008000    00000400   00000000    rw- .sysmem
+2000c000    2000c000    00000895   00000000    rw-
+  2000c000    2000c000    00000632   00000000    rw- .data
+  2000c634    2000c634    00000261   00000000    rw- .bss
 20080000    20080000    00000110   00000000    rw-
   20080000    20080000    00000110   00000000    rw- MSGRAM_CPU1_TO_CM
 20082000    20082000    00000110   00000000    rw-
@@ -87,205 +88,544 @@ section   page    origin      length       input sections
 *          0    00200000    00000006     
                   00200000    00000006     startup_cm.obj (.resetisr:resetISR)
 
-.TI.ramfunc 
-*          0    00200010    00000158     RUN ADDR = 1fffe000
-                  00200010    00000070     driverlib_cm.lib : flash.obj (.TI.ramfunc:Flash_initModule)
-                  00200080    00000008                      : flash.obj (.tramp.Flash_unlockCtrlRegisters.1)
-                  00200088    00000008                      : flash.obj (.tramp.Flash_unlockECCRegisters.1)
-                  00200090    00000030                      : flash.obj (.TI.ramfunc:Flash_setBankPowerMode)
-                  002000c0    00000020                      : flash.obj (.TI.ramfunc:Flash_setPumpPowerMode)
-                  002000e0    0000001a                      : flash.obj (.TI.ramfunc:Flash_enableECC)
-                  002000fa    00000018                      : flash.obj (.TI.ramfunc:Flash_disableDataCache)
-                  00200112    00000018                      : flash.obj (.TI.ramfunc:Flash_disableProgramCache)
-                  0020012a    00000018                      : flash.obj (.TI.ramfunc:Flash_enableDataCache)
-                  00200142    00000018                      : flash.obj (.TI.ramfunc:Flash_enableProgramCache)
-                  0020015a    0000000e                      : flash.obj (.TI.ramfunc:Flash_setWaitstates)
+.const     0    00200008    0000097c     
+                  00200008    00000100     coeappl.obj (.const:.string:aName0x1C32)
+                  00200108    000000ff     coeappl.obj (.const:.string:aName0x1C33)
+                  00200207    00000001     --HOLE-- [fill = 0]
+                  00200208    000000c6     coeappl.obj (.const:asEntryDesc0x1C3x)
+                  002002ce    00000088     coeappl.obj (.const:.string:aName0x1A00)
+                  00200356    00000002     --HOLE-- [fill = 0]
+                  00200358    00000088     driverlib_cm.lib : ipc.obj (.const:IPC_Instance)
+                  002003e0    00000084     coeappl.obj (.const:.string:aName0x1600)
+                  00200464    00000078     sdoserv.obj (.const:cAbortCode)
+                  002004dc    0000004b     coeappl.obj (.const:.string:aName0x6000)
+                  00200527    0000003f     coeappl.obj (.const:.string:aName0x10F1)
+                  00200566    0000003a     coeappl.obj (.const:.string:aName0x1601)
+                  002005a0    00000039     coeappl.obj (.const:.string:aName0x1018)
+                  002005d9    00000039     coeappl.obj (.const:.string:aName0x1A01)
+                  00200612    00000036     coeappl.obj (.const:asEntryDesc0x1600)
+                  00200648    00000036     coeappl.obj (.const:asEntryDesc0x1A00)
+                  0020067e    00000036     coeappl.obj (.const:asEntryDesc0x6000)
+                  002006b4    00000036     coeappl.obj (.const:asEntryDesc0x7000)
+                  002006ea    0000002f     coeappl.obj (.const:.string:aName0x7000)
+                  00200719    00000025     coeappl.obj (.const:.string:aName0x6014)
+                  0020073e    00000022     coeappl.obj (.const:.string:aName0x6012)
+                  00200760    00000020     coeappl.obj (.const:.string:aName0x7010)
+                  00200780    00000020     coeappl.obj (.const:.string:aName0x7014)
+                  002007a0    00000020     objdef.obj (.const:cBitMask)
+                  002007c0    0000001e     coeappl.obj (.const:asEntryDesc0x1018)
+                  002007de    0000001c     coeappl.obj (.const:.string:aName0x6010)
+                  002007fa    0000001b     coeappl.obj (.const:.string:aName0x1C12)
+                  00200815    0000001b     coeappl.obj (.const:.string:aName0x1C13)
+                  00200830    00000018     coeappl.obj (.const:asEntryDesc0x1601)
+                  00200848    00000018     coeappl.obj (.const:asEntryDesc0x1A01)
+                  00200860    00000013     coeappl.obj (.const:.string:aName0x10F8)
+                  00200873    00000012     coeappl.obj (.const:.string:aName0x1C00)
+                  00200885    00000012     coeappl.obj (.const:.string:aName0x7012)
+                  00200897    00000001     --HOLE-- [fill = 0]
+                  00200898    00000012     coeappl.obj (.const:asEntryDesc0x10F1)
+                  002008aa    00000011     coeappl.obj (.const:.string:aName0x1009)
+                  002008bb    00000011     coeappl.obj (.const:.string:aName0x100A)
+                  002008cc    0000000f     coeappl.obj (.const:.string:aName0x1001)
+                  002008db    0000000c     coeappl.obj (.const:.string:aName0x1000)
+                  002008e7    0000000c     coeappl.obj (.const:.string:aName0x1008)
+                  002008f3    00000001     --HOLE-- [fill = 0]
+                  002008f4    0000000c     coeappl.obj (.const:asEntryDesc0x1C00)
+                  00200900    0000000c     coeappl.obj (.const:asEntryDesc0x1C12)
+                  0020090c    0000000c     coeappl.obj (.const:asEntryDesc0x1C13)
+                  00200918    0000000c     coeappl.obj (.const:asEntryDesc0x6010)
+                  00200924    0000000c     coeappl.obj (.const:asEntryDesc0x6012)
+                  00200930    0000000c     coeappl.obj (.const:asEntryDesc0x6014)
+                  0020093c    0000000c     coeappl.obj (.const:asEntryDesc0x7010)
+                  00200948    0000000c     coeappl.obj (.const:asEntryDesc0x7012)
+                  00200954    0000000c     coeappl.obj (.const:asEntryDesc0x7014)
+                  00200960    00000006     coeappl.obj (.const:sEntryDesc0x1000)
+                  00200966    00000006     coeappl.obj (.const:sEntryDesc0x1001)
+                  0020096c    00000006     coeappl.obj (.const:sEntryDesc0x1008)
+                  00200972    00000006     coeappl.obj (.const:sEntryDesc0x1009)
+                  00200978    00000006     coeappl.obj (.const:sEntryDesc0x100A)
+                  0020097e    00000006     coeappl.obj (.const:sEntryDesc0x10F8)
 
-.vftable   0    00200400    00000140     UNINITIALIZED
-                  00200400    00000140     startup_cm.obj (.vftable:retain)
+.vftable   0    00200c00    00000140     UNINITIALIZED
+                  00200c00    00000140     startup_cm.obj (.vftable:retain)
 
-.cinit     0    002016a0    00000080     
-                  002016a0    00000024     (.cinit..vftable.load) [load image, compression = lzss]
-                  002016c4    0000001e     (.cinit..data.load) [load image, compression = lzss]
-                  002016e2    00000002     --HOLE-- [fill = 0]
-                  002016e4    0000000c     (__TI_handler_table)
-                  002016f0    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  002016f8    00000008     (.cinit..vtable.load) [load image, compression = zero_init]
-                  00201700    00000020     (__TI_cinit_table)
-
-.vtable    0    20000800    00000140     UNINITIALIZED
-                  20000800    00000140     driverlib_cm.lib : interrupt.obj (.vtable)
+.cinit     0    00208718    00000310     
+                  00208718    000002af     (.cinit..data.load) [load image, compression = lzss]
+                  002089c7    00000024     (.cinit..vftable.load) [load image, compression = lzss]
+                  002089eb    00000001     --HOLE-- [fill = 0]
+                  002089ec    0000000c     (__TI_handler_table)
+                  002089f8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  00208a00    00000008     (.cinit..vtable.load) [load image, compression = zero_init]
+                  00208a08    00000020     (__TI_cinit_table)
 
 .stack     0    1fffc000    00000200     UNINITIALIZED
                   1fffc000    00000004     rtsv7M4_T_le_eabi.lib : boot_cortex_m.c.obj (.stack)
                   1fffc004    000001fc     --HOLE--
 
-.data      0    2000c000    0000009c     UNINITIALIZED
-                  2000c000    0000006c     empty_driverlib_main_cm.obj (.data)
-                  2000c06c    00000018     empty_driverlib_main_cm.obj (.data:g_ecat_motor_status_txpdo)
-                  2000c084    00000010     empty_driverlib_main_cm.obj (.data:g_ecat_motor_command_rxpdo)
-                  2000c094    00000008     empty_driverlib_main_cm.obj (.data:g_ecat_motor_telemetry_txpdo)
+.vtable    0    20000800    00000140     UNINITIALIZED
+                  20000800    00000140     driverlib_cm.lib : interrupt.obj (.vtable)
 
-.bss       0    2000c09c    0000001c     UNINITIALIZED
-                  2000c09c    0000001c     empty_driverlib_main_cm.obj (.bss:g_cmIpcQueue)
+.sysmem    0    20008000    00000400     UNINITIALIZED
+                  20008000    00000010     rtsv7M4_T_le_eabi.lib : memory.c.obj (.sysmem)
+                  20008010    000003f0     --HOLE--
 
-MSGRAM_CPU1_TO_CM 
-*          0    20080000    00000110     UNINITIALIZED
-                  20080000    00000110     driverlib_cm.lib : ipc.obj (MSGRAM_CPU1_TO_CM)
+.TI.ramfunc 
+*          0    002085c0    00000158     RUN ADDR = 20000940
+                  002085c0    00000070     driverlib_cm.lib : flash.obj (.TI.ramfunc:Flash_initModule)
+                  00208630    00000008                      : flash.obj (.tramp.Flash_unlockCtrlRegisters.1)
+                  00208638    00000008                      : flash.obj (.tramp.Flash_unlockECCRegisters.1)
+                  00208640    00000030                      : flash.obj (.TI.ramfunc:Flash_setBankPowerMode)
+                  00208670    00000020                      : flash.obj (.TI.ramfunc:Flash_setPumpPowerMode)
+                  00208690    0000001a                      : flash.obj (.TI.ramfunc:Flash_enableECC)
+                  002086aa    00000018                      : flash.obj (.TI.ramfunc:Flash_disableDataCache)
+                  002086c2    00000018                      : flash.obj (.TI.ramfunc:Flash_disableProgramCache)
+                  002086da    00000018                      : flash.obj (.TI.ramfunc:Flash_enableDataCache)
+                  002086f2    00000018                      : flash.obj (.TI.ramfunc:Flash_enableProgramCache)
+                  0020870a    0000000e                      : flash.obj (.TI.ramfunc:Flash_setWaitstates)
+
+.data      0    2000c000    00000632     UNINITIALIZED
+                  2000c000    00000258     coeappl.obj (.data:ApplicationObjDic)
+                  2000c258    000001e0     coeappl.obj (.data:GenObjDic)
+                  2000c438    0000006c     empty_driverlib_main_cm.obj (.data)
+                  2000c4a4    00000024     ecat_motor_appl.obj (.data:LEDSProcessDataMapping0x1600)
+                  2000c4c8    00000024     ecat_motor_appl.obj (.data:SwitchesProcessDataMapping0x1A00)
+                  2000c4ec    00000019     coeappl.obj (.data:acDevicename)
+                  2000c505    00000002     ecatslv.obj (.data)
+                  2000c507    00000001     sdoserv.obj (.data)
+                  2000c508    00000018     empty_driverlib_main_cm.obj (.data:g_ecat_motor_status_txpdo)
+                  2000c520    00000014     coeappl.obj (.data:acHardwareversion)
+                  2000c534    00000014     coeappl.obj (.data:acSoftwareversion)
+                  2000c548    00000014     coeappl.obj (.data)
+                  2000c55c    00000014     coeappl.obj (.data:sIdentity)
+                  2000c570    00000010     ecat_motor_appl.obj (.data:InputMapping10x1A01)
+                  2000c580    00000010     ecat_motor_appl.obj (.data:OutputMapping10x1601)
+                  2000c590    00000010     ecat_motor_appl.obj (.data)
+                  2000c5a0    00000010     empty_driverlib_main_cm.obj (.data:g_ecat_motor_command_rxpdo)
+                  2000c5b0    0000000d     objdef.obj (.data:aSubindexDesc)
+                  2000c5bd    00000003     --HOLE--
+                  2000c5c0    0000000c     objdef.obj (.data:sErrorSettings)
+                  2000c5cc    0000000a     ecatappl.obj (.data)
+                  2000c5d6    00000002     --HOLE--
+                  2000c5d8    00000008     rtsv7M4_T_le_eabi.lib : _lock.c.obj (.data:$O1$$)
+                  2000c5e0    00000008                           : memory.c.obj (.data:$O1$$)
+                  2000c5e8    00000008     ecat_motor_appl.obj (.data:DataToMaster0x6010)
+                  2000c5f0    00000008     ecat_motor_appl.obj (.data:DatafromMaster0x7010)
+                  2000c5f8    00000008     ecat_motor_appl.obj (.data:TargetSpeedPosFeedback0x6014)
+                  2000c600    00000008     ecat_motor_appl.obj (.data:TargetSpeedPosReq0x7014)
+                  2000c608    00000008     empty_driverlib_main_cm.obj (.data:g_ecat_motor_telemetry_txpdo)
+                  2000c610    00000006     ecat_motor_appl.obj (.data:sRxPDOassign)
+                  2000c616    00000006     coeappl.obj (.data:sSyncmanagertype)
+                  2000c61c    00000006     ecat_motor_appl.obj (.data:sTxPDOassign)
+                  2000c622    00000004     ecat_motor_appl.obj (.data:LEDS0x7000)
+                  2000c626    00000004     ecat_motor_appl.obj (.data:Switches0x6000)
+                  2000c62a    00000004     ecat_motor_appl.obj (.data:TargetMode0x7012)
+                  2000c62e    00000004     ecat_motor_appl.obj (.data:TargetModeResponse0x6012)
+
+.bss       0    2000c634    00000261     UNINITIALIZED
+                  2000c634    00000044     (.common:aPdInputData)
+                  2000c678    00000044     (.common:aPdOutputData)
+                  2000c6bc    00000044     (.common:sSyncManInPar)
+                  2000c700    00000044     (.common:sSyncManOutPar)
+                  2000c744    00000034     (.common:sMbxReceiveQueue)
+                  2000c778    00000034     (.common:sMbxSendQueue)
+                  2000c7ac    0000001c     empty_driverlib_main_cm.obj (.bss:g_cmIpcQueue)
+                  2000c7c8    00000010     (.common:aSdoInfoHeader)
+                  2000c7d8    00000008     (.common:SyncManInfo)
+                  2000c7e0    00000004     (.common:nSdoSegBytesToHandle)
+                  2000c7e4    00000004     (.common:nSdoSegCompleteSize)
+                  2000c7e8    00000004     (.common:pAPPL_MainLoop)
+                  2000c7ec    00000004     (.common:pCoeSendStored)
+                  2000c7f0    00000004     (.common:pSdoInfoObjEntry)
+                  2000c7f4    00000004     (.common:pSdoPendFunc)
+                  2000c7f8    00000004     (.common:pSdoResStored)
+                  2000c7fc    00000004     (.common:pSdoSegData)
+                  2000c800    00000004     (.common:pSdoSegObjEntry)
+                  2000c804    00000004     (.common:pStoreData)
+                  2000c808    00000004     (.common:psReadMbx)
+                  2000c80c    00000004     (.common:psRepeatMbx)
+                  2000c810    00000004     (.common:psStoreMbx)
+                  2000c814    00000004     (.common:psWriteMbx)
+                  2000c818    00000004     (.common:u32CheckForDcOverrunCnt)
+                  2000c81c    00000004     (.common:u32CycleTimeStartValue)
+                  2000c820    00000004     (.common:u32LastDc32Value)
+                  2000c824    00000004     (.common:u32MinCycleTimeStartValue)
+                  2000c828    00000004     (.common:u32MinCycleTimeValue)
+                  2000c82c    00000004     (.common:u32StoreDataSize)
+                  2000c830    00000004     (.common:u32SystemTimeReadFailure)
+                  2000c834    00000002     (.common:EcatWdValue)
+                  2000c836    00000002     (.common:EsmTimeoutCounter)
+                  2000c838    00000002     (.common:LatchInputSync0Counter)
+                  2000c83a    00000002     (.common:LatchInputSync0Value)
+                  2000c83c    00000002     (.common:Sync0WdCounter)
+                  2000c83e    00000002     (.common:Sync0WdValue)
+                  2000c840    00000002     (.common:Sync1WdCounter)
+                  2000c842    00000002     (.common:Sync1WdValue)
+                  2000c844    00000002     (.common:i16WaitForPllRunningCnt)
+                  2000c846    00000002     (.common:i16WaitForPllRunningTimeout)
+                  2000c848    00000002     (.common:nEcatStateTrans)
+                  2000c84a    00000002     (.common:nEscAddrInputData)
+                  2000c84c    00000002     (.common:nEscAddrOutputData)
+                  2000c84e    00000002     (.common:nMaxEscAddress)
+                  2000c850    00000002     (.common:nPdInputSize)
+                  2000c852    00000002     (.common:nPdOutputSize)
+                  2000c854    00000002     (.common:nSdoInfoFragmentsLeft)
+                  2000c856    00000002     (.common:nSdoInfoIndex)
+                  2000c858    00000002     (.common:nSdoSegIndex)
+                  2000c85a    00000002     (.common:sCycleDiag)
+                  2000c85c    00000002     (.common:u16ALEventMask)
+                  2000c85e    00000002     (.common:u16EscAddrReceiveMbx)
+                  2000c860    00000002     (.common:u16EscAddrSendMbx)
+                  2000c862    00000002     (.common:u16LocalErrorCode)
+                  2000c864    00000002     (.common:u16ReceiveMbxSize)
+                  2000c866    00000002     (.common:u16SendMbxSize)
+                  2000c868    00000002     (.common:u16SmSync0Counter)
+                  2000c86a    00000002     (.common:u16SmSync0Value)
+                  2000c86c    00000002     (.common:u16StoreIndex)
+                  2000c86e    00000001     (.common:b32BitDc)
+                  2000c86f    00000001     (.common:b3BufferMode)
+                  2000c870    00000001     (.common:bApplEsmPending)
+                  2000c871    00000001     (.common:bDcRunning)
+                  2000c872    00000001     (.common:bDcSyncActive)
+                  2000c873    00000001     (.common:bEcatFirstOutputsReceived)
+                  2000c874    00000001     (.common:bEcatInputUpdateRunning)
+                  2000c875    00000001     (.common:bEcatOutputUpdateRunning)
+                  2000c876    00000001     (.common:bEcatWaitForAlControlRes)
+                  2000c877    00000001     (.common:bEscIntEnabled)
+                  2000c878    00000001     (.common:bEtherCATErrorLed)
+                  2000c879    00000001     (.common:bEtherCATRunLed)
+                  2000c87a    00000001     (.common:bLocalErrorFlag)
+                  2000c87b    00000001     (.common:bMbxRepeatToggle)
+                  2000c87c    00000001     (.common:bMbxRunning)
+                  2000c87d    00000001     (.common:bMinCycleTimeMeasurementStarted)
+                  2000c87e    00000001     (.common:bNoMbxMemoryAvailable)
+                  2000c87f    00000001     (.common:bReceiveMbxIsLocked)
+                  2000c880    00000001     (.common:bRunApplication)
+                  2000c881    00000001     (.common:bSdoSegAccess)
+                  2000c882    00000001     (.common:bSdoSegFollows)
+                  2000c883    00000001     (.common:bSdoSegLastToggle)
+                  2000c884    00000001     (.common:bSendMbxIsFull)
+                  2000c885    00000001     (.common:bSmSyncSequenceValid)
+                  2000c886    00000001     (.common:bStoreCompleteAccess)
+                  2000c887    00000001     (.common:bSyncSetByUser)
+                  2000c888    00000001     (.common:bWdTrigger)
+                  2000c889    00000001     (.common:nAlStatus)
+                  2000c88a    00000001     (.common:nMaxSyncMan)
+                  2000c88b    00000001     (.common:nSdoSegService)
+                  2000c88c    00000001     (.common:nSdoSegSubindex)
+                  2000c88d    00000001     (.common:u8EcatErrorLed)
+                  2000c88e    00000001     (.common:u8EcatRunLed)
+                  2000c88f    00000001     (.common:u8MailboxSendReqStored)
+                  2000c890    00000001     (.common:u8MbxReadCounter)
+                  2000c891    00000001     (.common:u8MbxWriteCounter)
+                  2000c892    00000001     (.common:u8PendingSdo)
+                  2000c893    00000001     (.common:u8StoreSubindex)
+                  2000c894    00000001     (.common:u8dummy)
 
 MSGRAM_CM_TO_CPU1 
 *          0    20082000    00000110     UNINITIALIZED
                   20082000    00000110     driverlib_cm.lib : ipc.obj (MSGRAM_CM_TO_CPU1)
 
-MSGRAM_CPU2_TO_CM 
-*          0    20084000    00000110     UNINITIALIZED
-                  20084000    00000110     driverlib_cm.lib : ipc.obj (MSGRAM_CPU2_TO_CM)
+MSGRAM_CPU1_TO_CM 
+*          0    20080000    00000110     UNINITIALIZED
+                  20080000    00000110     driverlib_cm.lib : ipc.obj (MSGRAM_CPU1_TO_CM)
 
 MSGRAM_CM_TO_CPU2 
 *          0    20086000    00000110     UNINITIALIZED
                   20086000    00000110     driverlib_cm.lib : ipc.obj (MSGRAM_CM_TO_CPU2)
 
+MSGRAM_CPU2_TO_CM 
+*          0    20084000    00000110     UNINITIALIZED
+                  20084000    00000110     driverlib_cm.lib : ipc.obj (MSGRAM_CPU2_TO_CM)
+
 __llvm_prf_cnts 
 *          0    2000c000    00000000     UNINITIALIZED
 
-.text.1    0    00200170    00000290     
-                  00200170    00000108     empty_driverlib_main_cm.obj (.text:ECAT_Status_UpdateTxPDOShadow)
-                  00200278    000000f4     empty_driverlib_main_cm.obj (.text:IPC_CM_1_ISR)
-                  0020036c    0000008f     ethercat_slave_cm_hal.obj (.text:CPUTimer_startTimer)
-                  002003fb    00000001     --HOLE-- [fill = 0]
-                  002003fc    00000004     rtsv7M4_T_le_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+.text.1    0    00200984    0000027c     
+                  00200984    00000270     sdoserv.obj (.text:SdoDownloadSegmentInd)
+                  00200bf4    0000000c     ecat_motor_appl.obj (.text:APPL_AckErrorInd)
 
-.text.2    0    00200540    000010ce     
-                  00200540    000000e0     ethercat_slave_cm_hal.obj (.text:ESC_initHW)
-                  00200620    000000cc     driverlib_cm.lib : ipc.obj (.text:IPC_sendMessageToQueue)
-                  002006ec    000000c4                      : ipc.obj (.text:IPC_readMessageFromQueue)
-                  002007b0    000000ac                      : ipc.obj (.text:IPC_initMessageQueue)
-                  0020085c    0000009c     ethercat_slave_cm_hal.obj (.text:ESCSS_getMemoryInitDoneStatusBlocking)
-                  002008f8    0000009c     rtsv7M4_T_le_eabi.lib : memcpy_t2.asm.obj (.text)
-                  00200994    00000088     ethercat_slave_cm_hal.obj (.text:ESCSS_setMaskedInterruptStatus)
-                  00200a1c    00000087     ethercat_slave_cm_hal.obj (.text:CPUTimer_setPreScaler)
-                  00200aa3    00000001     --HOLE-- [fill = 0]
-                  00200aa4    00000084     empty_driverlib_main_cm.obj (.text:ECAT_MotorCommand_Request)
-                  00200b28    00000080     ethercat_slave_cm_hal.obj (.text:ESCSS_clearRawInterruptStatus)
-                  00200ba8    00000080     driverlib_cm.lib : interrupt.obj (.text:Interrupt_enable)
-                  00200c28    00000080     startup_cm.obj (.text:nmiISR)
-                  00200ca8    00000076     cm.obj (.text:CM_enableAllPeripherals)
-                  00200d1e    00000002     startup_cm.obj (.text:defaultISR)
-                  00200d20    00000074     empty_driverlib_main_cm.obj (.text:ECAT_MotorCommand_ApplyRxPDO)
-                  00200d94    00000074     empty_driverlib_main_cm.obj (.text:ECAT_Telemetry_UpdateTxPDOShadow)
-                  00200e08    00000070     driverlib_cm.lib : sysctl.obj (.text:SysCtl_resetPeripheral)
-                  00200e78    0000006c     ethercat_slave_cm_hal.obj (.text:ESCSS_initMemory)
-                  00200ee4    0000006b     ethercat_slave_cm_hal.obj (.text:CPUTimer_setPeriod)
-                  00200f4f    00000001     --HOLE-- [fill = 0]
-                  00200f50    00000068     rtsv7M4_T_le_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  00200fb8    0000005c     driverlib_cm.lib : escss.obj (.text:ESCSS_configureSync0Connections)
-                  00201014    0000005c                      : escss.obj (.text:ESCSS_configureSync1Connections)
-                  00201070    0000005c                      : interrupt.obj (.text:Interrupt_registerHandler)
-                  002010cc    00000050     empty_driverlib_main_cm.obj (.text:main)
-                  0020111c    00000048     driverlib_cm.lib : sysctl.obj (.text:SysCtl_enablePeripheral)
-                  00201164    00000044     rtsv7M4_T_le_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
-                  002011a8    00000040     cm.obj (.text:CM_init)
-                  002011e8    00000008     driverlib_cm.lib : flash.obj (.tramp.Flash_initModule.1)
-                  002011f0    0000003c                      : ipc.obj (.text:IPC_registerInterrupt)
-                  0020122c    0000003a                      : escss.obj (.text:ESCSS_configureEEPROMSize)
-                  00201266    0000003a     ethercat_slave_cm_hal.obj (.text:ESC_loadedCheckEEPROM)
-                  002012a0    00000034     ethercat_slave_cm_hal.obj (.text:CPUTimer_isBaseValid)
-                  002012d4    00000032     empty_driverlib_main_cm.obj (.text:IPC_sync)
-                  00201306    00000028     empty_driverlib_main_cm.obj (.text:ECAT_MotorCommand_IsValid)
-                  0020132e    00000002     startup_cm.obj (.text:faultISR)
-                  00201330    00000028     empty_driverlib_main_cm.obj (.text:IPC_CM_Init)
-                  00201358    00000028     empty_driverlib_main_cm.obj (.text:IPC_waitForAck)
-                  00201380    00000028     empty_driverlib_main_cm.obj (.text:IPC_waitForFlag)
-                  002013a8    00000024     driverlib_cm.lib : escss.obj (.text:ESCSS_isConfigurationLockEnabled)
-                  002013cc    00000024     empty_driverlib_main_cm.obj (.text:IPC_ackFlagRtoL)
-                  002013f0    00000024     empty_driverlib_main_cm.obj (.text:IPC_clearFlagLtoR)
-                  00201414    00000024     driverlib_cm.lib : ipc.obj (.text:IPC_setFlagLtoR)
-                  00201438    00000024     empty_driverlib_main_cm.obj (.text:IPC_setFlagLtoR)
-                  0020145c    00000024     rtsv7M4_T_le_eabi.lib : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
-                  00201480    00000020     ethercat_slave_cm_hal.obj (.text:ESCSS_isBaseValid)
-                  002014a0    0000001c     ethercat_slave_cm_hal.obj (.text:ESC_readWord)
-                  002014bc    0000001c     ethercat_slave_cm_hal.obj (.text:ESC_writeDWordISR)
-                  002014d8    0000001c     rtsv7M4_T_le_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  002014f4    00000018     ethercat_slave_cm_hal.obj (.text:ESC_applicationLayerHandler)
-                  0020150c    00000018     ethercat_slave_cm_hal.obj (.text:ESC_applicationSync0Handler)
-                  00201524    00000018     ethercat_slave_cm_hal.obj (.text:ESC_applicationSync1Handler)
-                  0020153c    00000018     ethercat_slave_cm_hal.obj (.text:ESC_readWordISR)
-                  00201554    00000018     ethercat_slave_cm_hal.obj (.text:ESC_writeDWord)
-                  0020156c    00000014     driverlib_cm.lib : flash.obj (.text:Flash_unlockCtrlRegisters)
-                  00201580    00000014     empty_driverlib_main_cm.obj (.text:IPC_init)
-                  00201594    00000014     cm.obj (.text:Interrupt_setVectorTableOffset)
-                  002015a8    00000012     driverlib_cm.lib : flash.obj (.text:Flash_unlockECCRegisters)
-                  002015ba    00000002     --HOLE-- [fill = 0]
-                  002015bc    00000010     cm.obj (.text:SysCtl_disableWatchdog)
-                  002015cc    0000000e     empty_driverlib_main_cm.obj (.text:IPC_CM_SyncWithCPU1)
-                  002015da    0000000e     cm.obj (.text:__error__)
-                  002015e8    0000000e     rtsv7M4_T_le_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  002015f6    0000000c     ethercat_slave_cm_hal.obj (.text:ESC_resetESC)
-                  00201602    00000008     empty_driverlib_main_cm.obj (.text:CPU_clearPRIMASK)
-                  0020160a    00000004     rtsv7M4_T_le_eabi.lib : exit.c.obj (.text:abort:abort)
-
-.const     0    00201610    00000088     
-                  00201610    00000088     driverlib_cm.lib : ipc.obj (.const:IPC_Instance)
+.text.2    0    00200d40    00007874     
+                  00200d40    00000784     ecatslv.obj (.text:StartInputHandler)
+                  002014c4    00000748     objdef.obj (.text:OBJ_Write)
+                  00201c0c    000005b4     objdef.obj (.text:OBJ_Read)
+                  002021c0    00000588     sdoserv.obj (.text:SDOS_SdoInd)
+                  00202748    00000548     ecatslv.obj (.text:AL_ControlInd)
+                  00202c90    0000040c     sdoserv.obj (.text:SDOS_SdoInfoInd)
+                  0020309c    000003c0     ecatslv.obj (.text:CheckSmSettings)
+                  0020345c    000002b8     ecatslv.obj (.text:AL_ControlRes)
+                  00203714    0000028c     ecatappl.obj (.text:ECAT_SetLedIndication)
+                  002039a0    000001e4     ecat_motor_appl.obj (.text:APPL_OutputMapping)
+                  00203b84    000001ae     objdef.obj (.text:OBJ_GetEntryOffset)
+                  00203d32    00000002     rtsv7M4_T_le_eabi.lib : _lock.c.obj (.text:_nop)
+                  00203d34    000001a0     ecat_motor_appl.obj (.text:APPL_GenerateMapping)
+                  00203ed4    0000019c     coeappl.obj (.text:COE_ObjInit)
+                  00204070    0000017e     objdef.obj (.text:OBJ_GetObjectLength)
+                  002041ee    00000002     startup_cm.obj (.text:defaultISR)
+                  002041f0    0000017c     ecatslv.obj (.text:ECAT_Main)
+                  0020436c    00000148     sdoserv.obj (.text:SdoUploadSegmentInd)
+                  002044b4    00000144     ecatslv.obj (.text:ECAT_Init)
+                  002045f8    00000140     ecatappl.obj (.text:PDI_Isr)
+                  00204738    00000140     sdoserv.obj (.text:SdoRes)
+                  00204878    0000013c     ecatappl.obj (.text:Sync0_Isr)
+                  002049b4    00000138     ecatslv.obj (.text:StopInputHandler)
+                  00204aec    00000134     mailbox.obj (.text:MBX_StopMailboxHandler)
+                  00204c20    00000128     objdef.obj (.text:OBJ_GetDesc)
+                  00204d48    00000124     objdef.obj (.text:CheckSyncTypeValue)
+                  00204e6c    00000124     mailbox.obj (.text:MBX_CheckAndCopyMailbox)
+                  00204f90    00000124     sdoserv.obj (.text:SDOS_SdoRes)
+                  002050b4    00000108     empty_driverlib_main_cm.obj (.text:ECAT_Status_UpdateTxPDOShadow)
+                  002051bc    00000108     mailbox.obj (.text:MBX_Init)
+                  002052c4    00000108     objdef.obj (.text:OBJ_GetObjectList)
+                  002053cc    00000100     ecatslv.obj (.text:DC_CheckWatchdog)
+                  002054cc    00000100     rtsv7M4_T_le_eabi.lib : memory.c.obj (.text:aligned_alloc)
+                  002055cc    000000fc     ecat_motor_appl.obj (.text:APPL_Application)
+                  002056c8    000000f4     empty_driverlib_main_cm.obj (.text:IPC_CM_1_ISR)
+                  002057bc    000000f0     ecat_motor_appl.obj (.text:APPL_InputMapping)
+                  002058ac    000000e4     rtsv7M4_T_le_eabi.lib : memory.c.obj (.text:free)
+                  00205990    000000e0     ethercat_slave_cm_hal.obj (.text:ESC_initHW)
+                  00205a70    000000e0     ecatappl.obj (.text:MainLoop)
+                  00205b50    000000dc     coeappl.obj (.text:COE_AddObjectToDic)
+                  00205c2c    000000dc     mailbox.obj (.text:MBX_StartMailboxHandler)
+                  00205d08    000000d0     coeappl.obj (.text:COE_Main)
+                  00205dd8    000000cc     driverlib_cm.lib : ipc.obj (.text:IPC_sendMessageToQueue)
+                  00205ea4    000000cc     ecatappl.obj (.text:MainInit)
+                  00205f70    000000c4     driverlib_cm.lib : ipc.obj (.text:IPC_readMessageFromQueue)
+                  00206034    000000c4     ecat_motor_appl.obj (.text:PDO_ResetOutputs)
+                  002060f8    000000c4     ecatslv.obj (.text:SetALStatus)
+                  002061bc    000000c0     sdoserv.obj (.text:SODS_ClearPendingResponse)
+                  0020627c    000000b8     mailbox.obj (.text:MBX_CopyToSendMailbox)
+                  00206334    000000b8     mailbox.obj (.text:MBX_MailboxWriteInd)
+                  002063ec    000000b4     mailbox.obj (.text:MBX_MailboxSendReq)
+                  002064a0    000000ae     objdef.obj (.text:OBJ_GetNoOfObjects)
+                  0020654e    00000002     startup_cm.obj (.text:faultISR)
+                  00206550    000000ac     driverlib_cm.lib : ipc.obj (.text:IPC_initMessageQueue)
+                  002065fc    000000ac     mailbox.obj (.text:MBX_MailboxReadInd)
+                  002066a8    0000009c     ethercat_slave_cm_hal.obj (.text:ESCSS_getMemoryInitDoneStatusBlocking)
+                  00206744    0000009c     rtsv7M4_T_le_eabi.lib : memcpy_t2.asm.obj (.text)
+                  002067e0    00000098     ecatappl.obj (.text:PDO_OutputMapping)
+                  00206878    00000094     ecatslv.obj (.text:CheckIfEcatError)
+                  0020690c    00000094     ecatappl.obj (.text:ECAT_CheckTimer)
+                  002069a0    00000094     ethercat_slave_cm_hal.obj (.text:GPIO_writePin)
+                  00206a34    0000008f     ethercat_slave_cm_hal.obj (.text:CPUTimer_startTimer)
+                  00206ac3    00000001     --HOLE-- [fill = 0]
+                  00206ac4    00000088     ethercat_slave_cm_hal.obj (.text:ESCSS_setMaskedInterruptStatus)
+                  00206b4c    00000088     ecatappl.obj (.text:PDO_InputMapping)
+                  00206bd4    00000087     ethercat_slave_cm_hal.obj (.text:CPUTimer_setPreScaler)
+                  00206c5b    00000001     --HOLE-- [fill = 0]
+                  00206c5c    00000084     coeappl.obj (.text:COE_SyncTimeStamp)
+                  00206ce0    00000084     empty_driverlib_main_cm.obj (.text:ECAT_MotorCommand_Request)
+                  00206d64    00000080     ethercat_slave_cm_hal.obj (.text:ESCSS_clearRawInterruptStatus)
+                  00206de4    00000080     driverlib_cm.lib : interrupt.obj (.text:Interrupt_enable)
+                  00206e64    00000080     startup_cm.obj (.text:nmiISR)
+                  00206ee4    0000007f     ethercat_slave_cm_hal.obj (.text:CPUTimer_reloadTimerCounter)
+                  00206f63    00000001     --HOLE-- [fill = 0]
+                  00206f64    0000007c     objdef.obj (.text:OBJ_GetEntryDesc)
+                  00206fe0    0000007a     rtsv7M4_T_le_eabi.lib : memset_t2.asm.obj (.text)
+                  0020705a    00000002     --HOLE-- [fill = 0]
+                  0020705c    00000078     coeappl.obj (.text:COE_RemoveDicEntry)
+                  002070d4    00000076     cm.obj (.text:CM_enableAllPeripherals)
+                  0020714a    00000002     --HOLE-- [fill = 0]
+                  0020714c    00000074     empty_driverlib_main_cm.obj (.text:ECAT_MotorCommand_ApplyRxPDO)
+                  002071c0    00000074     empty_driverlib_main_cm.obj (.text:ECAT_Telemetry_UpdateTxPDOShadow)
+                  00207234    00000072     ecatcoe.obj (.text:COE_ServiceInd)
+                  002072a6    00000002     --HOLE-- [fill = 0]
+                  002072a8    00000070     driverlib_cm.lib : sysctl.obj (.text:SysCtl_resetPeripheral)
+                  00207318    00000070     rtsv7M4_T_le_eabi.lib : memory.c.obj (.text:split)
+                  00207388    0000006c     ethercat_slave_cm_hal.obj (.text:ESCSS_initMemory)
+                  002073f4    0000006c     ecatappl.obj (.text:HandleCycleTimeMeasurement)
+                  00207460    0000006c     mailbox.obj (.text:MBX_MailboxRepeatReq)
+                  002074cc    0000006c     mailbox.obj (.text:MBX_Main)
+                  00207538    0000006c     ecatslv.obj (.text:StartOutputHandler)
+                  002075a4    0000006b     ethercat_slave_cm_hal.obj (.text:CPUTimer_setPeriod)
+                  0020760f    00000001     --HOLE-- [fill = 0]
+                  00207610    00000068     rtsv7M4_T_le_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00207678    00000067     ethercat_slave_cm_hal.obj (.text:CPUTimer_getTimerCount)
+                  002076df    00000001     --HOLE-- [fill = 0]
+                  002076e0    00000064     coeappl.obj (.text:COE_UpdateSyncErrorStatus)
+                  00207744    00000060     ecatappl.obj (.text:GetSystemTimeDelay)
+                  002077a4    0000005c     driverlib_cm.lib : escss.obj (.text:ESCSS_configureSync0Connections)
+                  00207800    0000005c                      : escss.obj (.text:ESCSS_configureSync1Connections)
+                  0020785c    0000005c                      : interrupt.obj (.text:Interrupt_registerHandler)
+                  002078b8    0000005c     objdef.obj (.text:OBJ_CopyNumberToString)
+                  00207914    00000058     mailbox.obj (.text:GetOutOfMbxQueue)
+                  0020796c    00000058     coeappl.obj (.text:Read0x10F8)
+                  002079c4    00000050     mailbox.obj (.text:PutInMbxQueue)
+                  00207a14    0000004c     ecatcoe.obj (.text:COE_ContinueInd)
+                  00207a60    0000004c     empty_driverlib_main_cm.obj (.text:main)
+                  00207aac    00000048     driverlib_cm.lib : sysctl.obj (.text:SysCtl_enablePeripheral)
+                  00207af4    00000048     ecatslv.obj (.text:UpdateEEPROMLoadedState)
+                  00207b3c    00000044     rtsv7M4_T_le_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
+                  00207b80    00000040     cm.obj (.text:CM_init)
+                  00207bc0    00000040     coeappl.obj (.text:COE_ObjDictionaryInit)
+                  00207c00    0000003e     coeappl.obj (.text:AddObjectsToObjDictionary)
+                  00207c3e    00000002     --HOLE-- [fill = 0]
+                  00207c40    0000003c     coeappl.obj (.text:COE_ClearObjDictionary)
+                  00207c7c    0000003c     ecatslv.obj (.text:DisableSyncManChannel)
+                  00207cb8    0000003c     ecatslv.obj (.text:EnableSyncManChannel)
+                  00207cf4    0000003c     driverlib_cm.lib : ipc.obj (.text:IPC_registerInterrupt)
+                  00207d30    0000003c     ecatappl.obj (.text:Sync1_Isr)
+                  00207d6c    0000003a     driverlib_cm.lib : escss.obj (.text:ESCSS_configureEEPROMSize)
+                  00207da6    0000003a     ethercat_slave_cm_hal.obj (.text:ESC_loadedCheckEEPROM)
+                  00207de0    00000036     rtsv7M4_T_le_eabi.lib : strncpy.c.obj (.text:strncpy)
+                  00207e16    00000002     --HOLE-- [fill = 0]
+                  00207e18    00000034     ethercat_slave_cm_hal.obj (.text:CPUTimer_isBaseValid)
+                  00207e4c    00000034     empty_driverlib_main_cm.obj (.text:ECAT_MotorApplication_Process)
+                  00207e80    00000032     empty_driverlib_main_cm.obj (.text:IPC_sync)
+                  00207eb2    00000032     ecatslv.obj (.text:ResetALEventMask)
+                  00207ee4    00000032     ecatslv.obj (.text:SetALEventMask)
+                  00207f16    00000002     --HOLE-- [fill = 0]
+                  00207f18    00000030     ecatappl.obj (.text:ECAT_Application)
+                  00207f48    00000030     objdef.obj (.text:OBJ_GetObjectHandle)
+                  00207f78    0000002e     mailbox.obj (.text:MailboxServiceInd)
+                  00207fa6    00000028     empty_driverlib_main_cm.obj (.text:ECAT_MotorCommand_IsValid)
+                  00207fce    00000002     --HOLE-- [fill = 0]
+                  00207fd0    00000028     ethercat_slave_cm_hal.obj (.text:ESC_readBlockISR)
+                  00207ff8    00000028     ethercat_slave_cm_hal.obj (.text:ESC_writeBlockISR)
+                  00208020    00000028     empty_driverlib_main_cm.obj (.text:IPC_CM_Init)
+                  00208048    00000028     empty_driverlib_main_cm.obj (.text:IPC_waitForAck)
+                  00208070    00000028     empty_driverlib_main_cm.obj (.text:IPC_waitForFlag)
+                  00208098    00000028     rtsv7M4_T_le_eabi.lib : memory.c.obj (.text:free_list_insert)
+                  002080c0    00000024     driverlib_cm.lib : escss.obj (.text:ESCSS_isConfigurationLockEnabled)
+                  002080e4    00000024     ecatslv.obj (.text:GetSyncMan)
+                  00208108    00000024     empty_driverlib_main_cm.obj (.text:IPC_ackFlagRtoL)
+                  0020812c    00000024     empty_driverlib_main_cm.obj (.text:IPC_clearFlagLtoR)
+                  00208150    00000024     driverlib_cm.lib : ipc.obj (.text:IPC_setFlagLtoR)
+                  00208174    00000024     empty_driverlib_main_cm.obj (.text:IPC_setFlagLtoR)
+                  00208198    00000024     rtsv7M4_T_le_eabi.lib : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
+                  002081bc    00000020     ethercat_slave_cm_hal.obj (.text:ESCSS_isBaseValid)
+                  002081dc    00000020     ethercat_slave_cm_hal.obj (.text:ESC_readBlock)
+                  002081fc    00000020     ethercat_slave_cm_hal.obj (.text:ESC_setLed)
+                  0020821c    00000020     ethercat_slave_cm_hal.obj (.text:ESC_writeBlock)
+                  0020823c    00000020     ethercat_slave_cm_hal.obj (.text:ESC_writeByteISR)
+                  0020825c    00000020     ethercat_slave_cm_hal.obj (.text:ESC_writeWordISR)
+                  0020827c    0000001c     ethercat_slave_cm_hal.obj (.text:ESC_applicationLayerHandler)
+                  00208298    0000001c     ethercat_slave_cm_hal.obj (.text:ESC_applicationSync0Handler)
+                  002082b4    0000001c     ethercat_slave_cm_hal.obj (.text:ESC_applicationSync1Handler)
+                  002082d0    0000001c     ethercat_slave_cm_hal.obj (.text:ESC_readByte)
+                  002082ec    0000001c     ethercat_slave_cm_hal.obj (.text:ESC_readWord)
+                  00208308    0000001c     ethercat_slave_cm_hal.obj (.text:ESC_writeByte)
+                  00208324    0000001c     ethercat_slave_cm_hal.obj (.text:ESC_writeDWordISR)
+                  00208340    0000001c     ethercat_slave_cm_hal.obj (.text:ESC_writeWord)
+                  0020835c    0000001c     rtsv7M4_T_le_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  00208378    0000001c                           : memory.c.obj (.text:free_list_remove)
+                  00208394    0000001a     ethercat_slave_cm_hal.obj (.text:GPIO_isPinValid)
+                  002083ae    00000002     --HOLE-- [fill = 0]
+                  002083b0    00000018     ecatcoe.obj (.text:COE_Init)
+                  002083c8    00000018     ethercat_slave_cm_hal.obj (.text:ESC_clearTimer)
+                  002083e0    00000018     ethercat_slave_cm_hal.obj (.text:ESC_readByteISR)
+                  002083f8    00000018     ethercat_slave_cm_hal.obj (.text:ESC_readDWord)
+                  00208410    00000018     ethercat_slave_cm_hal.obj (.text:ESC_readDWordISR)
+                  00208428    00000018     ethercat_slave_cm_hal.obj (.text:ESC_readWordISR)
+                  00208440    00000018     ethercat_slave_cm_hal.obj (.text:ESC_writeDWord)
+                  00208458    00000018     ecatslv.obj (.text:StopOutputHandler)
+                  00208470    00000014     f2838x_cm_system.obj (.text:F2838XCM_strcpy)
+                  00208484    00000014     driverlib_cm.lib : flash.obj (.text:Flash_unlockCtrlRegisters)
+                  00208498    00000014     empty_driverlib_main_cm.obj (.text:IPC_init)
+                  002084ac    00000014     cm.obj (.text:Interrupt_setVectorTableOffset)
+                  002084c0    00000014     rtsv7M4_T_le_eabi.lib : strlen.c.obj (.text:strlen)
+                  002084d4    00000012     driverlib_cm.lib : flash.obj (.text:Flash_unlockECCRegisters)
+                  002084e6    00000002     --HOLE-- [fill = 0]
+                  002084e8    00000010     ethercat_slave_cm_hal.obj (.text:ESC_getTimer)
+                  002084f8    00000010     cm.obj (.text:SysCtl_disableWatchdog)
+                  00208508    0000000e     empty_driverlib_main_cm.obj (.text:IPC_CM_SyncWithCPU1)
+                  00208516    0000000e     objdef.obj (.text:OBJ_GetObjDesc)
+                  00208524    0000000e     cm.obj (.text:__error__)
+                  00208532    0000000e     rtsv7M4_T_le_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  00208540    0000000c     ecat_motor_appl.obj (.text:APPL_StartInputHandler)
+                  0020854c    0000000c     ecatslv.obj (.text:BackToInitTransition)
+                  00208558    0000000c     coeappl.obj (.text:COE_GetObjectDictionary)
+                  00208564    0000000c     ethercat_slave_cm_hal.obj (.text:ESC_resetESC)
+                  00208570    0000000a     ecat_motor_appl.obj (.text:APPL_StopOutputHandler)
+                  0020857a    00000008     empty_driverlib_main_cm.obj (.text:CPU_clearPRIMASK)
+                  00208582    00000002     --HOLE-- [fill = 0]
+                  00208584    00000008     ethercat_slave_cm_hal.obj (.text:ESC_timerIncPerMilliSec)
+                  0020858c    00000008     rtsv7M4_T_le_eabi.lib : memory.c.obj (.text:malloc)
+                  00208594    00000004     ecat_motor_appl.obj (.text:APPL_StartMailboxHandler)
+                  00208598    00000004     ecat_motor_appl.obj (.text:APPL_StartOutputHandler)
+                  0020859c    00000004     ecat_motor_appl.obj (.text:APPL_StopInputHandler)
+                  002085a0    00000004     ecat_motor_appl.obj (.text:APPL_StopMailboxHandler)
+                  002085a4    00000004     rtsv7M4_T_le_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+                  002085a8    00000004                           : exit.c.obj (.text:abort:abort)
+                  002085ac    00000008     driverlib_cm.lib : flash.obj (.tramp.Flash_initModule.1)
 
 MODULE SUMMARY
 
-       Module                        code   ro data   rw data
-       ------                        ----   -------   -------
+       Module                        code    ro data   rw data
+       ------                        ----    -------   -------
     .\
-       empty_driverlib_main_cm.obj   1312   0         184    
-       startup_cm.obj                138    0         320    
-    +--+-----------------------------+------+---------+---------+
-       Total:                        1450   0         504    
-                                                             
-    .\APP\ecat\
-       ethercat_slave_cm_hal.obj     1467   0         0      
-    +--+-----------------------------+------+---------+---------+
-       Total:                        1467   0         0      
-                                                             
+       empty_driverlib_main_cm.obj   1360    0         184    
+       startup_cm.obj                138     0         320    
+    +--+-----------------------------+-------+---------+---------+
+       Total:                        1498    0         504    
+                                                              
     .\device\
-       cm.obj                        232    0         0      
-    +--+-----------------------------+------+---------+---------+
-       Total:                        232    0         0      
-                                                             
+       cm.obj                        232     0         0      
+    +--+-----------------------------+-------+---------+---------+
+       Total:                        232     0         0      
+                                                              
+    APP\ecat\
+       ethercat_slave_cm_hal.obj     2327    0         0      
+    +--+-----------------------------+-------+---------+---------+
+       Total:                        2327    0         0      
+                                                              
+    ssc_stack\
+       ecatslv.obj                   7020    0         68     
+       objdef.obj                    5440    32        164    
+       coeappl.obj                   1478    2135      1199   
+       sdoserv.obj                   4208    120       69     
+       ecatappl.obj                  2464    0         170    
+       mailbox.obj                   2234    0         136    
+       ecat_motor_appl.obj           1638    0         180    
+       ecatcoe.obj                   214     0         4      
+       f2838x_cm_system.obj          20      0         0      
+    +--+-----------------------------+-------+---------+---------+
+       Total:                        24716   2287      1990   
+                                                              
     C:/ti/c2000/C2000Ware_26_00_00_00/driverlib/f2838x/driverlib_cm/ccs/Debug/driverlib_cm.lib
-       ipc.obj                       668    136       1088   
-       flash.obj                     734    0         0      
-       interrupt.obj                 220    0         320    
-       escss.obj                     278    0         0      
-       sysctl.obj                    184    0         0      
-    +--+-----------------------------+------+---------+---------+
-       Total:                        2084   136       1408   
-                                                             
+       ipc.obj                       668     136       1088   
+       flash.obj                     734     0         0      
+       interrupt.obj                 220     0         320    
+       escss.obj                     278     0         0      
+       sysctl.obj                    184     0         0      
+    +--+-----------------------------+-------+---------+---------+
+       Total:                        2084    136       1408   
+                                                              
     C:\ti\ti-cgt-arm_20.2.7.LTS\lib\rtsv7M4_T_le_eabi.lib
-       memcpy_t2.asm.obj             156    0         0      
-       copy_decompress_lzss.c.obj    104    0         0      
-       autoinit.c.obj                68     0         0      
-       boot_cortex_m.c.obj           36     0         0      
-       copy_zero_init.c.obj          28     0         0      
-       copy_decompress_none.c.obj    14     0         0      
-       exit.c.obj                    4      0         0      
-       pre_init.c.obj                4      0         0      
-    +--+-----------------------------+------+---------+---------+
-       Total:                        414    0         0      
-                                                             
-       Stack:                        0      0         512    
-       Linker Generated:             0      126       0      
-    +--+-----------------------------+------+---------+---------+
-       Grand Total:                  5647   262       2424   
+       memory.c.obj                  672     0         8      
+       memcpy_t2.asm.obj             156     0         0      
+       memset_t2.asm.obj             122     0         0      
+       copy_decompress_lzss.c.obj    104     0         0      
+       autoinit.c.obj                68      0         0      
+       strncpy.c.obj                 54      0         0      
+       boot_cortex_m.c.obj           36      0         0      
+       copy_zero_init.c.obj          28      0         0      
+       strlen.c.obj                  20      0         0      
+       copy_decompress_none.c.obj    14      0         0      
+       _lock.c.obj                   2       0         8      
+       exit.c.obj                    4       0         0      
+       pre_init.c.obj                4       0         0      
+    +--+-----------------------------+-------+---------+---------+
+       Total:                        1284    0         16     
+                                                              
+       Heap:                         0       0         1024   
+       Stack:                        0       0         512    
+       Linker Generated:             0       783       0      
+    +--+-----------------------------+-------+---------+---------+
+       Grand Total:                  32141   3206      5454   
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00201700 records: 4, size/record: 8, table size: 32
-	.vftable: load addr=002016a0, load size=00000024 bytes, run addr=00200400, run size=00000140 bytes, compression=lzss
-	.data: load addr=002016c4, load size=0000001e bytes, run addr=2000c000, run size=0000009c bytes, compression=lzss
-	.bss: load addr=002016f0, load size=00000008 bytes, run addr=2000c09c, run size=0000001c bytes, compression=zero_init
-	.vtable: load addr=002016f8, load size=00000008 bytes, run addr=20000800, run size=00000140 bytes, compression=zero_init
+__TI_cinit_table @ 00208a08 records: 4, size/record: 8, table size: 32
+	.data: load addr=00208718, load size=000002af bytes, run addr=2000c000, run size=00000632 bytes, compression=lzss
+	.vftable: load addr=002089c7, load size=00000024 bytes, run addr=00200c00, run size=00000140 bytes, compression=lzss
+	.bss: load addr=002089f8, load size=00000008 bytes, run addr=2000c634, run size=00000261 bytes, compression=zero_init
+	.vtable: load addr=00208a00, load size=00000008 bytes, run addr=20000800, run size=00000140 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 002016e4 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 002089ec records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -297,11 +637,11 @@ callee name               trampoline name
    callee addr  tramp addr   call addr  call info
 --------------  -----------  ---------  ----------------
 Flash_initModule          $Tramp$TT$L$PI$$Flash_initModule
-   1fffe001     002011e8     002011be   cm.obj (.text:CM_init)
+   20000941     002085ac     00207b96   cm.obj (.text:CM_init)
 Flash_unlockCtrlRegisters  $Tramp$TT$L$PI$$Flash_unlockCtrlRegisters
-   0020156d     1fffe070     1fffe010   driverlib_cm.lib : flash.obj (.TI.ramfunc:Flash_initModule)
+   00208485     200009b0     20000950   driverlib_cm.lib : flash.obj (.TI.ramfunc:Flash_initModule)
 Flash_unlockECCRegisters  $Tramp$TT$L$PI$$Flash_unlockECCRegisters
-   002015a9     1fffe078     1fffe016   driverlib_cm.lib : flash.obj (.TI.ramfunc:Flash_initModule)
+   002084d5     200009b8     20000956   driverlib_cm.lib : flash.obj (.TI.ramfunc:Flash_initModule)
 
 [3 trampolines]
 [3 trampoline calls]
@@ -309,197 +649,801 @@ Flash_unlockECCRegisters  $Tramp$TT$L$PI$$Flash_unlockECCRegisters
 
 GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
 
-address   name                           
--------   ----                           
-0020160b  C$$EXIT                        
-00200ca9  CM_enableAllPeripherals        
-002011a9  CM_init                        
-00200d21  ECAT_MotorCommand_ApplyRxPDO   
-00200aa5  ECAT_MotorCommand_Request      
-0020122d  ESCSS_configureEEPROMSize      
-00200fb9  ESCSS_configureSync0Connections
-00201015  ESCSS_configureSync1Connections
-002014f5  ESC_applicationLayerHandler    
-0020150d  ESC_applicationSync0Handler    
-00201525  ESC_applicationSync1Handler    
-00200541  ESC_initHW                     
-00201267  ESC_loadedCheckEEPROM          
-002014a1  ESC_readWord                   
-0020153d  ESC_readWordISR                
-002015f7  ESC_resetESC                   
-00201555  ESC_writeDWord                 
-002014bd  ESC_writeDWordISR              
-1fffe001  Flash_initModule               
-20080000  IPC_CM_To_CPU1_GetBuffer       
-20082000  IPC_CM_To_CPU1_PutBuffer       
-20084000  IPC_CM_To_CPU2_GetBuffer       
-20086000  IPC_CM_To_CPU2_PutBuffer       
-00201610  IPC_Instance                   
-002007b1  IPC_initMessageQueue           
-002006ed  IPC_readMessageFromQueue       
-002011f1  IPC_registerInterrupt          
-00200621  IPC_sendMessageToQueue         
-00200ba9  Interrupt_enable               
-00201071  Interrupt_registerHandler      
-00200168  RamfuncsLoadEnd                
-00000158  RamfuncsLoadSize               
-00200010  RamfuncsLoadStart              
-1fffe158  RamfuncsRunEnd                 
-00000158  RamfuncsRunSize                
-1fffe000  RamfuncsRunStart               
-0020111d  SysCtl_enablePeripheral        
-00200e09  SysCtl_resetPeripheral         
-1fffc200  __STACK_END                    
-00000200  __STACK_SIZE                   
-00201700  __TI_CINIT_Base                
-00201720  __TI_CINIT_Limit               
-002016e4  __TI_Handler_Table_Base        
-002016f0  __TI_Handler_Table_Limit       
-00201165  __TI_auto_init_nobinit_nopinit 
-00200f51  __TI_decompress_lzss           
-002015e9  __TI_decompress_none           
-ffffffff  __TI_pprof_out_hndl            
-ffffffff  __TI_prof_data_size            
-ffffffff  __TI_prof_data_start           
-002016a0  __TI_static_base__             
-002014d9  __TI_zero_init_nomemset        
-002008f9  __aeabi_memcpy                 
-002008f9  __aeabi_memcpy4                
-002008f9  __aeabi_memcpy8                
-ffffffff  __binit__                      
-ffffffff  __c_args__                     
-002015db  __error__                      
-UNDEFED   __mpu_init                     
-1fffc000  __stack                        
-2000c000  __start___llvm_prf_cnts        
-2000c000  __stop___llvm_prf_cnts         
-0020145d  _c_int00_noargs                
-UNDEFED   _system_post_cinit             
-002003fd  _system_pre_init               
-0020160b  abort                          
-ffffffff  binit                          
-2000c018  g_cm_ipc_cmd_ack_count         
-2000c014  g_cm_ipc_cmd_drop_count        
-2000c01c  g_cm_ipc_cmd_invalid_count     
-2000c010  g_cm_ipc_cmd_tx_count          
-2000c008  g_cm_ipc_error_count           
-2000c004  g_cm_ipc_rx_count              
-2000c00c  g_cm_ipc_status_rx_count       
-2000c030  g_cm_last_command              
-2000c034  g_cm_last_command_result       
-2000c024  g_cm_last_current_speed        
-2000c020  g_cm_last_encoder_count        
-2000c028  g_cm_motor_status_flags        
-2000c02c  g_cm_target_speed              
-2000c044  g_ecat_al_state                
-2000c040  g_ecat_command_apply_count     
-2000c000  g_ecat_hw_init_status          
-2000c084  g_ecat_motor_command_rxpdo     
-2000c06c  g_ecat_motor_status_txpdo      
-2000c094  g_ecat_motor_telemetry_txpdo   
-2000c038  g_ecat_pdo_update_count        
-2000c03c  g_ecat_status_update_count     
-002010cd  main                           
-002008f9  memcpy                         
-00200400  vectorTableFlash               
-20000800  vectorTableRAM                 
+address   name                            
+-------   ----                            
+00202749  AL_ControlInd                   
+0020345d  AL_ControlRes                   
+00200bf5  APPL_AckErrorInd                
+002055cd  APPL_Application                
+00203d35  APPL_GenerateMapping            
+002057bd  APPL_InputMapping               
+002039a1  APPL_OutputMapping              
+00208541  APPL_StartInputHandler          
+00208595  APPL_StartMailboxHandler        
+00208599  APPL_StartOutputHandler         
+0020859d  APPL_StopInputHandler           
+002085a1  APPL_StopMailboxHandler         
+00208571  APPL_StopOutputHandler          
+00207c01  AddObjectsToObjDictionary       
+2000c000  ApplicationObjDic               
+0020854d  BackToInitTransition            
+002085a9  C$$EXIT                         
+002070d5  CM_enableAllPeripherals         
+00207b81  CM_init                         
+00205b51  COE_AddObjectToDic              
+00207c41  COE_ClearObjDictionary          
+00207a15  COE_ContinueInd                 
+00208559  COE_GetObjectDictionary         
+002083b1  COE_Init                        
+00205d09  COE_Main                        
+00207bc1  COE_ObjDictionaryInit           
+00203ed5  COE_ObjInit                     
+0020705d  COE_RemoveDicEntry              
+00207235  COE_ServiceInd                  
+00206c5d  COE_SyncTimeStamp               
+002076e1  COE_UpdateSyncErrorStatus       
+00206879  CheckIfEcatError                
+0020309d  CheckSmSettings                 
+00204d49  CheckSyncTypeValue              
+002053cd  DC_CheckWatchdog                
+2000c5e8  DataToMaster0x6010              
+2000c5f0  DatafromMaster0x7010            
+00207c7d  DisableSyncManChannel           
+00207f19  ECAT_Application                
+0020690d  ECAT_CheckTimer                 
+002044b5  ECAT_Init                       
+002041f1  ECAT_Main                       
+00207e4d  ECAT_MotorApplication_Process   
+0020714d  ECAT_MotorCommand_ApplyRxPDO    
+00206ce1  ECAT_MotorCommand_Request       
+00203715  ECAT_SetLedIndication           
+00207d6d  ESCSS_configureEEPROMSize       
+002077a5  ESCSS_configureSync0Connections 
+00207801  ESCSS_configureSync1Connections 
+0020827d  ESC_applicationLayerHandler     
+00208299  ESC_applicationSync0Handler     
+002082b5  ESC_applicationSync1Handler     
+002083c9  ESC_clearTimer                  
+002084e9  ESC_getTimer                    
+00205991  ESC_initHW                      
+00207da7  ESC_loadedCheckEEPROM           
+002081dd  ESC_readBlock                   
+00207fd1  ESC_readBlockISR                
+002082d1  ESC_readByte                    
+002083e1  ESC_readByteISR                 
+002083f9  ESC_readDWord                   
+00208411  ESC_readDWordISR                
+002082ed  ESC_readWord                    
+00208429  ESC_readWordISR                 
+00208565  ESC_resetESC                    
+002081fd  ESC_setLed                      
+00208585  ESC_timerIncPerMilliSec         
+0020821d  ESC_writeBlock                  
+00207ff9  ESC_writeBlockISR               
+00208309  ESC_writeByte                   
+0020823d  ESC_writeByteISR                
+00208441  ESC_writeDWord                  
+00208325  ESC_writeDWordISR               
+00208341  ESC_writeWord                   
+0020825d  ESC_writeWordISR                
+2000c834  EcatWdValue                     
+2000c506  EepromLoaded                    
+00207cb9  EnableSyncManChannel            
+2000c836  EsmTimeoutCounter               
+00208471  F2838XCM_strcpy                 
+20000941  Flash_initModule                
+2000c258  GenObjDic                       
+00207915  GetOutOfMbxQueue                
+002080e5  GetSyncMan                      
+00207745  GetSystemTimeDelay              
+002073f5  HandleCycleTimeMeasurement      
+20080000  IPC_CM_To_CPU1_GetBuffer        
+20082000  IPC_CM_To_CPU1_PutBuffer        
+20084000  IPC_CM_To_CPU2_GetBuffer        
+20086000  IPC_CM_To_CPU2_PutBuffer        
+00200358  IPC_Instance                    
+00206551  IPC_initMessageQueue            
+00205f71  IPC_readMessageFromQueue        
+00207cf5  IPC_registerInterrupt           
+00205dd9  IPC_sendMessageToQueue          
+2000c570  InputMapping10x1A01             
+00206de5  Interrupt_enable                
+0020785d  Interrupt_registerHandler       
+2000c622  LEDS0x7000                      
+2000c4a4  LEDSProcessDataMapping0x1600    
+2000c838  LatchInputSync0Counter          
+2000c83a  LatchInputSync0Value            
+00204e6d  MBX_CheckAndCopyMailbox         
+0020627d  MBX_CopyToSendMailbox           
+002051bd  MBX_Init                        
+002065fd  MBX_MailboxReadInd              
+00207461  MBX_MailboxRepeatReq            
+002063ed  MBX_MailboxSendReq              
+00206335  MBX_MailboxWriteInd             
+002074cd  MBX_Main                        
+00205c2d  MBX_StartMailboxHandler         
+00204aed  MBX_StopMailboxHandler          
+00207f79  MailboxServiceInd               
+00205ea5  MainInit                        
+00205a71  MainLoop                        
+002078b9  OBJ_CopyNumberToString          
+00204c21  OBJ_GetDesc                     
+00206f65  OBJ_GetEntryDesc                
+00203b85  OBJ_GetEntryOffset              
+002064a1  OBJ_GetNoOfObjects              
+00208517  OBJ_GetObjDesc                  
+00207f49  OBJ_GetObjectHandle             
+00204071  OBJ_GetObjectLength             
+002052c5  OBJ_GetObjectList               
+00201c0d  OBJ_Read                        
+002014c5  OBJ_Write                       
+2000c558  ObjDicList                      
+2000c580  OutputMapping10x1601            
+002045f9  PDI_Isr                         
+00206b4d  PDO_InputMapping                
+002067e1  PDO_OutputMapping               
+00206035  PDO_ResetOutputs                
+002079c5  PutInMbxQueue                   
+00208718  RamfuncsLoadEnd                 
+00000158  RamfuncsLoadSize                
+002085c0  RamfuncsLoadStart               
+20000a98  RamfuncsRunEnd                  
+00000158  RamfuncsRunSize                 
+20000940  RamfuncsRunStart                
+0020796d  Read0x10F8                      
+00207eb3  ResetALEventMask                
+002021c1  SDOS_SdoInd                     
+00202c91  SDOS_SdoInfoInd                 
+00204f91  SDOS_SdoRes                     
+2000c505  SMActivate                      
+002061bd  SODS_ClearPendingResponse       
+00204739  SdoRes                          
+00207ee5  SetALEventMask                  
+002060f9  SetALStatus                     
+00200d41  StartInputHandler               
+00207539  StartOutputHandler              
+002049b5  StopInputHandler                
+00208459  StopOutputHandler               
+2000c626  Switches0x6000                  
+2000c4c8  SwitchesProcessDataMapping0x1A00
+2000c83c  Sync0WdCounter                  
+2000c83e  Sync0WdValue                    
+00204879  Sync0_Isr                       
+2000c840  Sync1WdCounter                  
+2000c842  Sync1WdValue                    
+00207d31  Sync1_Isr                       
+2000c7d8  SyncManInfo                     
+00207aad  SysCtl_enablePeripheral         
+002072a9  SysCtl_resetPeripheral          
+2000c62a  TargetMode0x7012                
+2000c62e  TargetModeResponse0x6012        
+2000c5f8  TargetSpeedPosFeedback0x6014    
+2000c600  TargetSpeedPosReq0x7014         
+00207af5  UpdateEEPROMLoadedState         
+1fffc200  __STACK_END                     
+00000200  __STACK_SIZE                    
+00000400  __SYSMEM_SIZE                   
+00208a08  __TI_CINIT_Base                 
+00208a28  __TI_CINIT_Limit                
+002089ec  __TI_Handler_Table_Base         
+002089f8  __TI_Handler_Table_Limit        
+00207b3d  __TI_auto_init_nobinit_nopinit  
+00207611  __TI_decompress_lzss            
+00208533  __TI_decompress_none            
+ffffffff  __TI_pprof_out_hndl             
+ffffffff  __TI_prof_data_size             
+ffffffff  __TI_prof_data_start            
+00208718  __TI_static_base__              
+0020835d  __TI_zero_init_nomemset         
+00206fe1  __aeabi_memclr                  
+00206fe1  __aeabi_memclr4                 
+00206fe1  __aeabi_memclr8                 
+00206745  __aeabi_memcpy                  
+00206745  __aeabi_memcpy4                 
+00206745  __aeabi_memcpy8                 
+00206fe3  __aeabi_memset                  
+00206fe3  __aeabi_memset4                 
+00206fe3  __aeabi_memset8                 
+ffffffff  __binit__                       
+ffffffff  __c_args__                      
+00208525  __error__                       
+UNDEFED   __mpu_init                      
+1fffc000  __stack                         
+2000c000  __start___llvm_prf_cnts         
+2000c000  __stop___llvm_prf_cnts          
+00208199  _c_int00_noargs                 
+2000c5d8  _lock                           
+00203d33  _nop                            
+20008000  _sys_memory                     
+UNDEFED   _system_post_cinit              
+002085a5  _system_pre_init                
+2000c5dc  _unlock                         
+002008db  aName0x1000                     
+002008cc  aName0x1001                     
+002008e7  aName0x1008                     
+002008aa  aName0x1009                     
+002008bb  aName0x100A                     
+002005a0  aName0x1018                     
+00200527  aName0x10F1                     
+00200860  aName0x10F8                     
+002003e0  aName0x1600                     
+00200566  aName0x1601                     
+002002ce  aName0x1A00                     
+002005d9  aName0x1A01                     
+00200873  aName0x1C00                     
+002007fa  aName0x1C12                     
+00200815  aName0x1C13                     
+00200008  aName0x1C32                     
+00200108  aName0x1C33                     
+002004dc  aName0x6000                     
+002007de  aName0x6010                     
+0020073e  aName0x6012                     
+00200719  aName0x6014                     
+002006ea  aName0x7000                     
+00200760  aName0x7010                     
+00200885  aName0x7012                     
+00200780  aName0x7014                     
+2000c634  aPdInputData                    
+2000c678  aPdOutputData                   
+2000c7c8  aSdoInfoHeader                  
+2000c5b0  aSubindexDesc                   
+002085a9  abort                           
+2000c4ec  acDevicename                    
+2000c520  acHardwareversion               
+2000c534  acSoftwareversion               
+002054cd  aligned_alloc                   
+002007c0  asEntryDesc0x1018               
+00200898  asEntryDesc0x10F1               
+00200612  asEntryDesc0x1600               
+00200830  asEntryDesc0x1601               
+00200648  asEntryDesc0x1A00               
+00200848  asEntryDesc0x1A01               
+002008f4  asEntryDesc0x1C00               
+00200900  asEntryDesc0x1C12               
+0020090c  asEntryDesc0x1C13               
+00200208  asEntryDesc0x1C3x               
+0020067e  asEntryDesc0x6000               
+00200918  asEntryDesc0x6010               
+00200924  asEntryDesc0x6012               
+00200930  asEntryDesc0x6014               
+002006b4  asEntryDesc0x7000               
+0020093c  asEntryDesc0x7010               
+00200948  asEntryDesc0x7012               
+00200954  asEntryDesc0x7014               
+2000c86e  b32BitDc                        
+2000c86f  b3BufferMode                    
+2000c870  bApplEsmPending                 
+2000c871  bDcRunning                      
+2000c872  bDcSyncActive                   
+2000c873  bEcatFirstOutputsReceived       
+2000c874  bEcatInputUpdateRunning         
+2000c875  bEcatOutputUpdateRunning        
+2000c876  bEcatWaitForAlControlRes        
+2000c877  bEscIntEnabled                  
+2000c878  bEtherCATErrorLed               
+2000c879  bEtherCATRunLed                 
+2000c5cc  bInitFinished                   
+2000c87a  bLocalErrorFlag                 
+2000c87b  bMbxRepeatToggle                
+2000c87c  bMbxRunning                     
+2000c87d  bMinCycleTimeMeasurementStarted 
+2000c87e  bNoMbxMemoryAvailable           
+2000c87f  bReceiveMbxIsLocked             
+2000c880  bRunApplication                 
+2000c507  bSdoInWork                      
+2000c881  bSdoSegAccess                   
+2000c882  bSdoSegFollows                  
+2000c883  bSdoSegLastToggle               
+2000c884  bSendMbxIsFull                  
+2000c885  bSmSyncSequenceValid            
+2000c886  bStoreCompleteAccess            
+2000c887  bSyncSetByUser                  
+2000c888  bWdTrigger                      
+ffffffff  binit                           
+00200464  cAbortCode                      
+002007a0  cBitMask                        
+002058ad  free                            
+2000c450  g_cm_ipc_cmd_ack_count          
+2000c44c  g_cm_ipc_cmd_drop_count         
+2000c454  g_cm_ipc_cmd_invalid_count      
+2000c448  g_cm_ipc_cmd_tx_count           
+2000c440  g_cm_ipc_error_count            
+2000c43c  g_cm_ipc_rx_count               
+2000c444  g_cm_ipc_status_rx_count        
+2000c468  g_cm_last_command               
+2000c46c  g_cm_last_command_result        
+2000c45c  g_cm_last_current_speed         
+2000c458  g_cm_last_encoder_count         
+2000c460  g_cm_motor_status_flags         
+2000c464  g_cm_target_speed               
+2000c47c  g_ecat_al_state                 
+2000c478  g_ecat_command_apply_count      
+2000c438  g_ecat_hw_init_status           
+2000c5a0  g_ecat_motor_command_rxpdo      
+2000c508  g_ecat_motor_status_txpdo       
+2000c608  g_ecat_motor_telemetry_txpdo    
+2000c470  g_ecat_pdo_update_count         
+2000c474  g_ecat_status_update_count      
+2000c844  i16WaitForPllRunningCnt         
+2000c846  i16WaitForPllRunningTimeout     
+00207a61  main                            
+0020858d  malloc                          
+002054cd  memalign                        
+00206745  memcpy                          
+00206fe9  memset                          
+2000c889  nAlStatus                       
+2000c848  nEcatStateTrans                 
+2000c84a  nEscAddrInputData               
+2000c84c  nEscAddrOutputData              
+2000c84e  nMaxEscAddress                  
+2000c88a  nMaxSyncMan                     
+2000c850  nPdInputSize                    
+2000c852  nPdOutputSize                   
+2000c854  nSdoInfoFragmentsLeft           
+2000c856  nSdoInfoIndex                   
+2000c7e0  nSdoSegBytesToHandle            
+2000c7e4  nSdoSegCompleteSize             
+2000c858  nSdoSegIndex                    
+2000c88b  nSdoSegService                  
+2000c88c  nSdoSegSubindex                 
+2000c7e8  pAPPL_MainLoop                  
+2000c7ec  pCoeSendStored                  
+2000c7f0  pSdoInfoObjEntry                
+2000c7f4  pSdoPendFunc                    
+2000c7f8  pSdoResStored                   
+2000c7fc  pSdoSegData                     
+2000c800  pSdoSegObjEntry                 
+2000c804  pStoreData                      
+2000c808  psReadMbx                       
+2000c80c  psRepeatMbx                     
+2000c810  psStoreMbx                      
+2000c814  psWriteMbx                      
+2000c85a  sCycleDiag                      
+00200960  sEntryDesc0x1000                
+00200966  sEntryDesc0x1001                
+0020096c  sEntryDesc0x1008                
+00200972  sEntryDesc0x1009                
+00200978  sEntryDesc0x100A                
+0020097e  sEntryDesc0x10F8                
+2000c5c0  sErrorSettings                  
+2000c55c  sIdentity                       
+2000c744  sMbxReceiveQueue                
+2000c778  sMbxSendQueue                   
+2000c610  sRxPDOassign                    
+2000c6bc  sSyncManInPar                   
+2000c700  sSyncManOutPar                  
+2000c616  sSyncmanagertype                
+2000c61c  sTxPDOassign                    
+002084c1  strlen                          
+00207de1  strncpy                         
+2000c85c  u16ALEventMask                  
+2000c554  u16ErrorRegister                
+2000c85e  u16EscAddrReceiveMbx            
+2000c860  u16EscAddrSendMbx               
+2000c862  u16LocalErrorCode               
+2000c864  u16ReceiveMbxSize               
+2000c866  u16SendMbxSize                  
+2000c868  u16SmSync0Counter               
+2000c86a  u16SmSync0Value                 
+2000c86c  u16StoreIndex                   
+2000c818  u32CheckForDcOverrunCnt         
+2000c81c  u32CycleTimeStartValue          
+2000c550  u32Devicetype                   
+2000c820  u32LastDc32Value                
+2000c824  u32MinCycleTimeStartValue       
+2000c828  u32MinCycleTimeValue            
+2000c82c  u32StoreDataSize                
+2000c830  u32SystemTimeReadFailure        
+2000c548  u64Timestamp                    
+2000c88d  u8EcatErrorLed                  
+2000c88e  u8EcatRunLed                    
+2000c88f  u8MailboxSendReqStored          
+2000c890  u8MbxReadCounter                
+2000c891  u8MbxWriteCounter               
+2000c892  u8PendingSdo                    
+2000c893  u8StoreSubindex                 
+2000c894  u8dummy                         
+00200c00  vectorTableFlash                
+20000800  vectorTableRAM                  
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
 
-address   name                           
--------   ----                           
-00000158  RamfuncsLoadSize               
-00000158  RamfuncsRunSize                
-00000200  __STACK_SIZE                   
-00200010  RamfuncsLoadStart              
-00200168  RamfuncsLoadEnd                
-002003fd  _system_pre_init               
-00200400  vectorTableFlash               
-00200541  ESC_initHW                     
-00200621  IPC_sendMessageToQueue         
-002006ed  IPC_readMessageFromQueue       
-002007b1  IPC_initMessageQueue           
-002008f9  __aeabi_memcpy                 
-002008f9  __aeabi_memcpy4                
-002008f9  __aeabi_memcpy8                
-002008f9  memcpy                         
-00200aa5  ECAT_MotorCommand_Request      
-00200ba9  Interrupt_enable               
-00200ca9  CM_enableAllPeripherals        
-00200d21  ECAT_MotorCommand_ApplyRxPDO   
-00200e09  SysCtl_resetPeripheral         
-00200f51  __TI_decompress_lzss           
-00200fb9  ESCSS_configureSync0Connections
-00201015  ESCSS_configureSync1Connections
-00201071  Interrupt_registerHandler      
-002010cd  main                           
-0020111d  SysCtl_enablePeripheral        
-00201165  __TI_auto_init_nobinit_nopinit 
-002011a9  CM_init                        
-002011f1  IPC_registerInterrupt          
-0020122d  ESCSS_configureEEPROMSize      
-00201267  ESC_loadedCheckEEPROM          
-0020145d  _c_int00_noargs                
-002014a1  ESC_readWord                   
-002014bd  ESC_writeDWordISR              
-002014d9  __TI_zero_init_nomemset        
-002014f5  ESC_applicationLayerHandler    
-0020150d  ESC_applicationSync0Handler    
-00201525  ESC_applicationSync1Handler    
-0020153d  ESC_readWordISR                
-00201555  ESC_writeDWord                 
-002015db  __error__                      
-002015e9  __TI_decompress_none           
-002015f7  ESC_resetESC                   
-0020160b  C$$EXIT                        
-0020160b  abort                          
-00201610  IPC_Instance                   
-002016a0  __TI_static_base__             
-002016e4  __TI_Handler_Table_Base        
-002016f0  __TI_Handler_Table_Limit       
-00201700  __TI_CINIT_Base                
-00201720  __TI_CINIT_Limit               
-1fffc000  __stack                        
-1fffc200  __STACK_END                    
-1fffe000  RamfuncsRunStart               
-1fffe001  Flash_initModule               
-1fffe158  RamfuncsRunEnd                 
-20000800  vectorTableRAM                 
-2000c000  __start___llvm_prf_cnts        
-2000c000  __stop___llvm_prf_cnts         
-2000c000  g_ecat_hw_init_status          
-2000c004  g_cm_ipc_rx_count              
-2000c008  g_cm_ipc_error_count           
-2000c00c  g_cm_ipc_status_rx_count       
-2000c010  g_cm_ipc_cmd_tx_count          
-2000c014  g_cm_ipc_cmd_drop_count        
-2000c018  g_cm_ipc_cmd_ack_count         
-2000c01c  g_cm_ipc_cmd_invalid_count     
-2000c020  g_cm_last_encoder_count        
-2000c024  g_cm_last_current_speed        
-2000c028  g_cm_motor_status_flags        
-2000c02c  g_cm_target_speed              
-2000c030  g_cm_last_command              
-2000c034  g_cm_last_command_result       
-2000c038  g_ecat_pdo_update_count        
-2000c03c  g_ecat_status_update_count     
-2000c040  g_ecat_command_apply_count     
-2000c044  g_ecat_al_state                
-2000c06c  g_ecat_motor_status_txpdo      
-2000c084  g_ecat_motor_command_rxpdo     
-2000c094  g_ecat_motor_telemetry_txpdo   
-20080000  IPC_CM_To_CPU1_GetBuffer       
-20082000  IPC_CM_To_CPU1_PutBuffer       
-20084000  IPC_CM_To_CPU2_GetBuffer       
-20086000  IPC_CM_To_CPU2_PutBuffer       
-ffffffff  __TI_pprof_out_hndl            
-ffffffff  __TI_prof_data_size            
-ffffffff  __TI_prof_data_start           
-ffffffff  __binit__                      
-ffffffff  __c_args__                     
-ffffffff  binit                          
-UNDEFED   __mpu_init                     
-UNDEFED   _system_post_cinit             
+address   name                            
+-------   ----                            
+00000158  RamfuncsLoadSize                
+00000158  RamfuncsRunSize                 
+00000200  __STACK_SIZE                    
+00000400  __SYSMEM_SIZE                   
+00200008  aName0x1C32                     
+00200108  aName0x1C33                     
+00200208  asEntryDesc0x1C3x               
+002002ce  aName0x1A00                     
+00200358  IPC_Instance                    
+002003e0  aName0x1600                     
+00200464  cAbortCode                      
+002004dc  aName0x6000                     
+00200527  aName0x10F1                     
+00200566  aName0x1601                     
+002005a0  aName0x1018                     
+002005d9  aName0x1A01                     
+00200612  asEntryDesc0x1600               
+00200648  asEntryDesc0x1A00               
+0020067e  asEntryDesc0x6000               
+002006b4  asEntryDesc0x7000               
+002006ea  aName0x7000                     
+00200719  aName0x6014                     
+0020073e  aName0x6012                     
+00200760  aName0x7010                     
+00200780  aName0x7014                     
+002007a0  cBitMask                        
+002007c0  asEntryDesc0x1018               
+002007de  aName0x6010                     
+002007fa  aName0x1C12                     
+00200815  aName0x1C13                     
+00200830  asEntryDesc0x1601               
+00200848  asEntryDesc0x1A01               
+00200860  aName0x10F8                     
+00200873  aName0x1C00                     
+00200885  aName0x7012                     
+00200898  asEntryDesc0x10F1               
+002008aa  aName0x1009                     
+002008bb  aName0x100A                     
+002008cc  aName0x1001                     
+002008db  aName0x1000                     
+002008e7  aName0x1008                     
+002008f4  asEntryDesc0x1C00               
+00200900  asEntryDesc0x1C12               
+0020090c  asEntryDesc0x1C13               
+00200918  asEntryDesc0x6010               
+00200924  asEntryDesc0x6012               
+00200930  asEntryDesc0x6014               
+0020093c  asEntryDesc0x7010               
+00200948  asEntryDesc0x7012               
+00200954  asEntryDesc0x7014               
+00200960  sEntryDesc0x1000                
+00200966  sEntryDesc0x1001                
+0020096c  sEntryDesc0x1008                
+00200972  sEntryDesc0x1009                
+00200978  sEntryDesc0x100A                
+0020097e  sEntryDesc0x10F8                
+00200bf5  APPL_AckErrorInd                
+00200c00  vectorTableFlash                
+00200d41  StartInputHandler               
+002014c5  OBJ_Write                       
+00201c0d  OBJ_Read                        
+002021c1  SDOS_SdoInd                     
+00202749  AL_ControlInd                   
+00202c91  SDOS_SdoInfoInd                 
+0020309d  CheckSmSettings                 
+0020345d  AL_ControlRes                   
+00203715  ECAT_SetLedIndication           
+002039a1  APPL_OutputMapping              
+00203b85  OBJ_GetEntryOffset              
+00203d33  _nop                            
+00203d35  APPL_GenerateMapping            
+00203ed5  COE_ObjInit                     
+00204071  OBJ_GetObjectLength             
+002041f1  ECAT_Main                       
+002044b5  ECAT_Init                       
+002045f9  PDI_Isr                         
+00204739  SdoRes                          
+00204879  Sync0_Isr                       
+002049b5  StopInputHandler                
+00204aed  MBX_StopMailboxHandler          
+00204c21  OBJ_GetDesc                     
+00204d49  CheckSyncTypeValue              
+00204e6d  MBX_CheckAndCopyMailbox         
+00204f91  SDOS_SdoRes                     
+002051bd  MBX_Init                        
+002052c5  OBJ_GetObjectList               
+002053cd  DC_CheckWatchdog                
+002054cd  aligned_alloc                   
+002054cd  memalign                        
+002055cd  APPL_Application                
+002057bd  APPL_InputMapping               
+002058ad  free                            
+00205991  ESC_initHW                      
+00205a71  MainLoop                        
+00205b51  COE_AddObjectToDic              
+00205c2d  MBX_StartMailboxHandler         
+00205d09  COE_Main                        
+00205dd9  IPC_sendMessageToQueue          
+00205ea5  MainInit                        
+00205f71  IPC_readMessageFromQueue        
+00206035  PDO_ResetOutputs                
+002060f9  SetALStatus                     
+002061bd  SODS_ClearPendingResponse       
+0020627d  MBX_CopyToSendMailbox           
+00206335  MBX_MailboxWriteInd             
+002063ed  MBX_MailboxSendReq              
+002064a1  OBJ_GetNoOfObjects              
+00206551  IPC_initMessageQueue            
+002065fd  MBX_MailboxReadInd              
+00206745  __aeabi_memcpy                  
+00206745  __aeabi_memcpy4                 
+00206745  __aeabi_memcpy8                 
+00206745  memcpy                          
+002067e1  PDO_OutputMapping               
+00206879  CheckIfEcatError                
+0020690d  ECAT_CheckTimer                 
+00206b4d  PDO_InputMapping                
+00206c5d  COE_SyncTimeStamp               
+00206ce1  ECAT_MotorCommand_Request       
+00206de5  Interrupt_enable                
+00206f65  OBJ_GetEntryDesc                
+00206fe1  __aeabi_memclr                  
+00206fe1  __aeabi_memclr4                 
+00206fe1  __aeabi_memclr8                 
+00206fe3  __aeabi_memset                  
+00206fe3  __aeabi_memset4                 
+00206fe3  __aeabi_memset8                 
+00206fe9  memset                          
+0020705d  COE_RemoveDicEntry              
+002070d5  CM_enableAllPeripherals         
+0020714d  ECAT_MotorCommand_ApplyRxPDO    
+00207235  COE_ServiceInd                  
+002072a9  SysCtl_resetPeripheral          
+002073f5  HandleCycleTimeMeasurement      
+00207461  MBX_MailboxRepeatReq            
+002074cd  MBX_Main                        
+00207539  StartOutputHandler              
+00207611  __TI_decompress_lzss            
+002076e1  COE_UpdateSyncErrorStatus       
+00207745  GetSystemTimeDelay              
+002077a5  ESCSS_configureSync0Connections 
+00207801  ESCSS_configureSync1Connections 
+0020785d  Interrupt_registerHandler       
+002078b9  OBJ_CopyNumberToString          
+00207915  GetOutOfMbxQueue                
+0020796d  Read0x10F8                      
+002079c5  PutInMbxQueue                   
+00207a15  COE_ContinueInd                 
+00207a61  main                            
+00207aad  SysCtl_enablePeripheral         
+00207af5  UpdateEEPROMLoadedState         
+00207b3d  __TI_auto_init_nobinit_nopinit  
+00207b81  CM_init                         
+00207bc1  COE_ObjDictionaryInit           
+00207c01  AddObjectsToObjDictionary       
+00207c41  COE_ClearObjDictionary          
+00207c7d  DisableSyncManChannel           
+00207cb9  EnableSyncManChannel            
+00207cf5  IPC_registerInterrupt           
+00207d31  Sync1_Isr                       
+00207d6d  ESCSS_configureEEPROMSize       
+00207da7  ESC_loadedCheckEEPROM           
+00207de1  strncpy                         
+00207e4d  ECAT_MotorApplication_Process   
+00207eb3  ResetALEventMask                
+00207ee5  SetALEventMask                  
+00207f19  ECAT_Application                
+00207f49  OBJ_GetObjectHandle             
+00207f79  MailboxServiceInd               
+00207fd1  ESC_readBlockISR                
+00207ff9  ESC_writeBlockISR               
+002080e5  GetSyncMan                      
+00208199  _c_int00_noargs                 
+002081dd  ESC_readBlock                   
+002081fd  ESC_setLed                      
+0020821d  ESC_writeBlock                  
+0020823d  ESC_writeByteISR                
+0020825d  ESC_writeWordISR                
+0020827d  ESC_applicationLayerHandler     
+00208299  ESC_applicationSync0Handler     
+002082b5  ESC_applicationSync1Handler     
+002082d1  ESC_readByte                    
+002082ed  ESC_readWord                    
+00208309  ESC_writeByte                   
+00208325  ESC_writeDWordISR               
+00208341  ESC_writeWord                   
+0020835d  __TI_zero_init_nomemset         
+002083b1  COE_Init                        
+002083c9  ESC_clearTimer                  
+002083e1  ESC_readByteISR                 
+002083f9  ESC_readDWord                   
+00208411  ESC_readDWordISR                
+00208429  ESC_readWordISR                 
+00208441  ESC_writeDWord                  
+00208459  StopOutputHandler               
+00208471  F2838XCM_strcpy                 
+002084c1  strlen                          
+002084e9  ESC_getTimer                    
+00208517  OBJ_GetObjDesc                  
+00208525  __error__                       
+00208533  __TI_decompress_none            
+00208541  APPL_StartInputHandler          
+0020854d  BackToInitTransition            
+00208559  COE_GetObjectDictionary         
+00208565  ESC_resetESC                    
+00208571  APPL_StopOutputHandler          
+00208585  ESC_timerIncPerMilliSec         
+0020858d  malloc                          
+00208595  APPL_StartMailboxHandler        
+00208599  APPL_StartOutputHandler         
+0020859d  APPL_StopInputHandler           
+002085a1  APPL_StopMailboxHandler         
+002085a5  _system_pre_init                
+002085a9  C$$EXIT                         
+002085a9  abort                           
+002085c0  RamfuncsLoadStart               
+00208718  RamfuncsLoadEnd                 
+00208718  __TI_static_base__              
+002089ec  __TI_Handler_Table_Base         
+002089f8  __TI_Handler_Table_Limit        
+00208a08  __TI_CINIT_Base                 
+00208a28  __TI_CINIT_Limit                
+1fffc000  __stack                         
+1fffc200  __STACK_END                     
+20000800  vectorTableRAM                  
+20000940  RamfuncsRunStart                
+20000941  Flash_initModule                
+20000a98  RamfuncsRunEnd                  
+20008000  _sys_memory                     
+2000c000  ApplicationObjDic               
+2000c000  __start___llvm_prf_cnts         
+2000c000  __stop___llvm_prf_cnts          
+2000c258  GenObjDic                       
+2000c438  g_ecat_hw_init_status           
+2000c43c  g_cm_ipc_rx_count               
+2000c440  g_cm_ipc_error_count            
+2000c444  g_cm_ipc_status_rx_count        
+2000c448  g_cm_ipc_cmd_tx_count           
+2000c44c  g_cm_ipc_cmd_drop_count         
+2000c450  g_cm_ipc_cmd_ack_count          
+2000c454  g_cm_ipc_cmd_invalid_count      
+2000c458  g_cm_last_encoder_count         
+2000c45c  g_cm_last_current_speed         
+2000c460  g_cm_motor_status_flags         
+2000c464  g_cm_target_speed               
+2000c468  g_cm_last_command               
+2000c46c  g_cm_last_command_result        
+2000c470  g_ecat_pdo_update_count         
+2000c474  g_ecat_status_update_count      
+2000c478  g_ecat_command_apply_count      
+2000c47c  g_ecat_al_state                 
+2000c4a4  LEDSProcessDataMapping0x1600    
+2000c4c8  SwitchesProcessDataMapping0x1A00
+2000c4ec  acDevicename                    
+2000c505  SMActivate                      
+2000c506  EepromLoaded                    
+2000c507  bSdoInWork                      
+2000c508  g_ecat_motor_status_txpdo       
+2000c520  acHardwareversion               
+2000c534  acSoftwareversion               
+2000c548  u64Timestamp                    
+2000c550  u32Devicetype                   
+2000c554  u16ErrorRegister                
+2000c558  ObjDicList                      
+2000c55c  sIdentity                       
+2000c570  InputMapping10x1A01             
+2000c580  OutputMapping10x1601            
+2000c5a0  g_ecat_motor_command_rxpdo      
+2000c5b0  aSubindexDesc                   
+2000c5c0  sErrorSettings                  
+2000c5cc  bInitFinished                   
+2000c5d8  _lock                           
+2000c5dc  _unlock                         
+2000c5e8  DataToMaster0x6010              
+2000c5f0  DatafromMaster0x7010            
+2000c5f8  TargetSpeedPosFeedback0x6014    
+2000c600  TargetSpeedPosReq0x7014         
+2000c608  g_ecat_motor_telemetry_txpdo    
+2000c610  sRxPDOassign                    
+2000c616  sSyncmanagertype                
+2000c61c  sTxPDOassign                    
+2000c622  LEDS0x7000                      
+2000c626  Switches0x6000                  
+2000c62a  TargetMode0x7012                
+2000c62e  TargetModeResponse0x6012        
+2000c634  aPdInputData                    
+2000c678  aPdOutputData                   
+2000c6bc  sSyncManInPar                   
+2000c700  sSyncManOutPar                  
+2000c744  sMbxReceiveQueue                
+2000c778  sMbxSendQueue                   
+2000c7c8  aSdoInfoHeader                  
+2000c7d8  SyncManInfo                     
+2000c7e0  nSdoSegBytesToHandle            
+2000c7e4  nSdoSegCompleteSize             
+2000c7e8  pAPPL_MainLoop                  
+2000c7ec  pCoeSendStored                  
+2000c7f0  pSdoInfoObjEntry                
+2000c7f4  pSdoPendFunc                    
+2000c7f8  pSdoResStored                   
+2000c7fc  pSdoSegData                     
+2000c800  pSdoSegObjEntry                 
+2000c804  pStoreData                      
+2000c808  psReadMbx                       
+2000c80c  psRepeatMbx                     
+2000c810  psStoreMbx                      
+2000c814  psWriteMbx                      
+2000c818  u32CheckForDcOverrunCnt         
+2000c81c  u32CycleTimeStartValue          
+2000c820  u32LastDc32Value                
+2000c824  u32MinCycleTimeStartValue       
+2000c828  u32MinCycleTimeValue            
+2000c82c  u32StoreDataSize                
+2000c830  u32SystemTimeReadFailure        
+2000c834  EcatWdValue                     
+2000c836  EsmTimeoutCounter               
+2000c838  LatchInputSync0Counter          
+2000c83a  LatchInputSync0Value            
+2000c83c  Sync0WdCounter                  
+2000c83e  Sync0WdValue                    
+2000c840  Sync1WdCounter                  
+2000c842  Sync1WdValue                    
+2000c844  i16WaitForPllRunningCnt         
+2000c846  i16WaitForPllRunningTimeout     
+2000c848  nEcatStateTrans                 
+2000c84a  nEscAddrInputData               
+2000c84c  nEscAddrOutputData              
+2000c84e  nMaxEscAddress                  
+2000c850  nPdInputSize                    
+2000c852  nPdOutputSize                   
+2000c854  nSdoInfoFragmentsLeft           
+2000c856  nSdoInfoIndex                   
+2000c858  nSdoSegIndex                    
+2000c85a  sCycleDiag                      
+2000c85c  u16ALEventMask                  
+2000c85e  u16EscAddrReceiveMbx            
+2000c860  u16EscAddrSendMbx               
+2000c862  u16LocalErrorCode               
+2000c864  u16ReceiveMbxSize               
+2000c866  u16SendMbxSize                  
+2000c868  u16SmSync0Counter               
+2000c86a  u16SmSync0Value                 
+2000c86c  u16StoreIndex                   
+2000c86e  b32BitDc                        
+2000c86f  b3BufferMode                    
+2000c870  bApplEsmPending                 
+2000c871  bDcRunning                      
+2000c872  bDcSyncActive                   
+2000c873  bEcatFirstOutputsReceived       
+2000c874  bEcatInputUpdateRunning         
+2000c875  bEcatOutputUpdateRunning        
+2000c876  bEcatWaitForAlControlRes        
+2000c877  bEscIntEnabled                  
+2000c878  bEtherCATErrorLed               
+2000c879  bEtherCATRunLed                 
+2000c87a  bLocalErrorFlag                 
+2000c87b  bMbxRepeatToggle                
+2000c87c  bMbxRunning                     
+2000c87d  bMinCycleTimeMeasurementStarted 
+2000c87e  bNoMbxMemoryAvailable           
+2000c87f  bReceiveMbxIsLocked             
+2000c880  bRunApplication                 
+2000c881  bSdoSegAccess                   
+2000c882  bSdoSegFollows                  
+2000c883  bSdoSegLastToggle               
+2000c884  bSendMbxIsFull                  
+2000c885  bSmSyncSequenceValid            
+2000c886  bStoreCompleteAccess            
+2000c887  bSyncSetByUser                  
+2000c888  bWdTrigger                      
+2000c889  nAlStatus                       
+2000c88a  nMaxSyncMan                     
+2000c88b  nSdoSegService                  
+2000c88c  nSdoSegSubindex                 
+2000c88d  u8EcatErrorLed                  
+2000c88e  u8EcatRunLed                    
+2000c88f  u8MailboxSendReqStored          
+2000c890  u8MbxReadCounter                
+2000c891  u8MbxWriteCounter               
+2000c892  u8PendingSdo                    
+2000c893  u8StoreSubindex                 
+2000c894  u8dummy                         
+20080000  IPC_CM_To_CPU1_GetBuffer        
+20082000  IPC_CM_To_CPU1_PutBuffer        
+20084000  IPC_CM_To_CPU2_GetBuffer        
+20086000  IPC_CM_To_CPU2_PutBuffer        
+ffffffff  __TI_pprof_out_hndl             
+ffffffff  __TI_prof_data_size             
+ffffffff  __TI_prof_data_start            
+ffffffff  __binit__                       
+ffffffff  __c_args__                      
+ffffffff  binit                           
+UNDEFED   __mpu_init                      
+UNDEFED   _system_post_cinit              
 
-[92 symbols]
+[394 symbols]

@@ -50,12 +50,22 @@
 // Included Files
 //
 #include <stdint.h>
+#include <string.h>
 #include "ecat_def.h"
 #include "applInterface.h"
+#include "ethercat_slave_cm_hal.h"
+#include "../ecat_motor_app.h"
+#include "../../ipc_protocol.h"
 
 #define _F2838X_ECHOBACK_ 1
 #include "f2838x_cm_echoback.h"
 #undef _F2838X_ECHOBACK_
+
+/* 1. 保存最近一次 RxPDO，只有数据变化时才产生新的 IPC 命令序号 */
+static UINT32 g_ssc_last_command = 0U;                    // 最近一次命令号
+static UINT32 g_ssc_last_dataw1 = 0U;                     // 最近一次参数1
+static UINT32 g_ssc_last_dataw2 = 0U;                     // 最近一次参数2
+static UINT32 g_ssc_rx_sequence = 0U;                     // CM 本地 RxPDO 序号
 
 //
 // PDO_ResetOutputs - Resets the Output data to zero
@@ -74,6 +84,14 @@ void PDO_ResetOutputs(void)
     DatafromMaster0x7010.DatafromMaster = 0x0UL;
     TargetMode0x7012.Mode = 0x0U;
     TargetSpeedPosReq0x7014.SpeedPosReq = 0x0UL;
+    g_ssc_last_command = 0U;                               // 允许相同命令在重新进入 OP 后再次触发
+    g_ssc_last_dataw1 = 0U;                                // 清除上次参数1缓存
+    g_ssc_last_dataw2 = 0U;                                // 清除上次参数2缓存
+
+    g_ecat_motor_command_rxpdo.command = 0U;               // 离开 OP 后清除待执行命令
+    g_ecat_motor_command_rxpdo.dataw1 = 0U;                // 清除参数1
+    g_ecat_motor_command_rxpdo.dataw2 = 0U;                // 清除参数2
+    g_ecat_motor_command_rxpdo.sequence = ++g_ssc_rx_sequence; // 防止旧命令再次执行
 }
 
 //
@@ -411,6 +429,21 @@ void APPL_OutputMapping(UINT16 *pData)
                 break;
         }
     }
+
+    /* 2. 将当前 EchoBack RxPDO 临时字段转换为电机 IPC 命令影子区 */
+    if((g_ssc_last_command != DatafromMaster0x7010.DatafromMaster) ||
+       (g_ssc_last_dataw1 != TargetSpeedPosReq0x7014.SpeedPosReq) ||
+       (g_ssc_last_dataw2 != (UINT32)TargetMode0x7012.Mode))
+    {
+        g_ssc_last_command = DatafromMaster0x7010.DatafromMaster; // 0x7010 作为 IPC 命令号
+        g_ssc_last_dataw1 = TargetSpeedPosReq0x7014.SpeedPosReq;  // 0x7014 作为参数1
+        g_ssc_last_dataw2 = (UINT32)TargetMode0x7012.Mode;        // 0x7012 作为参数2
+
+        g_ecat_motor_command_rxpdo.command = g_ssc_last_command;  // 写入命令影子区
+        g_ecat_motor_command_rxpdo.dataw1 = g_ssc_last_dataw1;    // 写入参数1
+        g_ecat_motor_command_rxpdo.dataw2 = g_ssc_last_dataw2;    // 写入参数2
+        g_ecat_motor_command_rxpdo.sequence = ++g_ssc_rx_sequence; // 通知应用层有新命令
+    }
 }
 
 //
@@ -419,22 +452,32 @@ void APPL_OutputMapping(UINT16 *pData)
 //
 void APPL_Application(void)
 {
-    Switches0x6000.Switch1 = LEDS0x7000.LED1;
-    Switches0x6000.Switch2 = LEDS0x7000.LED2;
-    Switches0x6000.Switch3 = LEDS0x7000.LED3;
-    Switches0x6000.Switch4 = LEDS0x7000.LED4;
+    UINT32 currentSpeedBits = 0U;                          // 保存 current_speed 的 IEEE754 原始位
 
-    Switches0x6000.Switch5 = LEDS0x7000.LED5;
-    Switches0x6000.Switch6 = LEDS0x7000.LED6;
-    Switches0x6000.Switch7 = LEDS0x7000.LED7;
-    Switches0x6000.Switch8 = LEDS0x7000.LED8;
+    /* 3. 先处理 CPU1 IPC，再刷新 SSC TxPDO 输出数据 */
+    ECAT_MotorApplication_Process();                       // EtherCAT 命令通过 CM→CPU1 IPC 执行
+    memcpy(&currentSpeedBits,                             // 将浮点转速按原始位发送给主站
+           (const void *)&g_ecat_motor_telemetry_txpdo.currentSpeed,
+           sizeof(currentSpeedBits));
 
-    DataToMaster0x6010.DataToMaster = DatafromMaster0x7010.DatafromMaster;
+    /* 4. 使用当前 EchoBack 对象承载 CPU1 的电机遥测和状态 */
+    Switches0x6000.Switch1 =
+        (g_ecat_motor_status_txpdo.motorStatus & IPC_MOTOR_STATUS_RUN_ENABLED) != 0U; // 运行状态
+    Switches0x6000.Switch2 =
+        (g_ecat_motor_status_txpdo.motorStatus & IPC_MOTOR_STATUS_ESTOP_ACTIVE) != 0U; // 急停状态
+    Switches0x6000.Switch3 = (g_ecat_hw_init_status == ESC_HW_INIT_SUCCESS); // ESC 初始化状态
+    Switches0x6000.Switch4 = (g_ecat_al_state == 0x0008U);   // OP 状态
+    Switches0x6000.Switch5 = (g_cm_ipc_cmd_drop_count != 0U); // IPC 丢弃诊断
+    Switches0x6000.Switch6 = (g_cm_ipc_error_count != 0U);    // IPC 错误诊断
+    Switches0x6000.Switch7 = 0U;                              // 预留
+    Switches0x6000.Switch8 = 0U;                              // 预留
 
-    TargetModeResponse0x6012.ModeResponse = TargetMode0x7012.Mode;
-
+    DataToMaster0x6010.DataToMaster =
+        (UINT32)g_ecat_motor_telemetry_txpdo.encoderCount;    // 0x6010 返回 current_count
+    TargetModeResponse0x6012.ModeResponse =
+        (UINT16)(g_ecat_motor_status_txpdo.motorStatus & 0xFFFFU); // 0x6012 返回状态低16位
     TargetSpeedPosFeedback0x6014.SpeedPosFbk =
-     TargetSpeedPosReq0x7014.SpeedPosReq;
+        currentSpeedBits;                                    // 0x6014 返回 current_speed 的 IEEE754 位
 }
 
 #if EXPLICIT_DEVICE_ID

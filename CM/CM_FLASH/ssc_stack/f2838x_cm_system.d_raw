@@ -1,0 +1,7 @@
+ssc_stack\f2838x_cm_system.obj: ../ssc_stack/f2838x_cm_system.c
+ssc_stack\f2838x_cm_system.obj: ..\ssc_stack\f2838x_cm_system.h
+ssc_stack\f2838x_cm_system.obj: C:/ti/ti-cgt-arm_20.2.7.LTS/include/string.h
+ssc_stack\f2838x_cm_system.obj: C:/ti/ti-cgt-arm_20.2.7.LTS/include/_ti_config.h
+ssc_stack\f2838x_cm_system.obj: C:/ti/ti-cgt-arm_20.2.7.LTS/include/linkage.h
+ssc_stack\f2838x_cm_system.obj: C:/ti/ti-cgt-arm_20.2.7.LTS/include/sys/cdefs.h
+ssc_stack\f2838x_cm_system.obj: C:/ti/ti-cgt-arm_20.2.7.LTS/include/xlocale/_string.h

@@ -1,9 +1,10 @@
 MEMORY
 {
    /* Flash sectors */
-   CMBANK0_SECTOR0  : origin = 0x00200000, length = 0x00004000
-   CMBANK0_SECTOR1  : origin = 0x00204000, length = 0x00004000
-   CMBANK0_SECTOR2  : origin = 0x00208000, length = 0x00004000
+   CMBANK0_RESETISR : origin = 0x00200000, length = 0x00000008 /* Boot to Flash Entry Point */
+   CMBANK0_SECTOR0_1_2  : origin = 0x00200008, length = 0x0000BFF7
+   /* CMBANK0_SECTOR1  : origin = 0x00204000, length = 0x00004000 */
+   /* CMBANK0_SECTOR2  : origin = 0x00208000, length = 0x00004000 */
    CMBANK0_SECTOR3  : origin = 0x0020C000, length = 0x00004000
    CMBANK0_SECTOR4  : origin = 0x00210000, length = 0x00010000
    CMBANK0_SECTOR5  : origin = 0x00220000, length = 0x00010000
@@ -20,17 +21,20 @@ MEMORY
    C0RAM            : origin = 0x1FFFE000, length = 0x00001FFF
 
    BOOT_RSVD        : origin = 0x20000000, length = 0x00000800 /* Part of S0, BOOT rom will use this for stack */
-   S0RAM_RESETISR   : origin = 0x20000800, length = 0x00000008 /* Boot to RAM Entry Point */
-   S0_S1_S2RAM      : origin = 0x20000808, length = 0x0000B7F7
+   S0RAM            : origin = 0x20000800, length = 0x000037FF
+   S1RAM            : origin = 0x20004000, length = 0x00003FFF
+   S2RAM            : origin = 0x20008000, length = 0x00003FFF
    S3RAM            : origin = 0x2000C000, length = 0x00003FFF
    E0RAM            : origin = 0x20010000, length = 0x00003FFF
 
    CPU1TOCMMSGRAM0  : origin = 0x20080000, length = 0x00000400
    CPU1TOCMMSGRAM0_ECAT  : origin = 0x20080400, length = 0x00000400
    CPU1TOCMMSGRAM1  : origin = 0x20080800, length = 0x00000800
+
    CMTOCPU1MSGRAM0  : origin = 0x20082000, length = 0x00000400
    CMTOCPU1MSGRAM0_ECAT  : origin = 0x20082400, length = 0x00000400
    CMTOCPU1MSGRAM1  : origin = 0x20082800, length = 0x00000800
+
    CPU2TOCMMSGRAM0  : origin = 0x20084000, length = 0x00000800
    CPU2TOCMMSGRAM1  : origin = 0x20084800, length = 0x00000800
    CMTOCPU2MSGRAM0  : origin = 0x20086000, length = 0x00000800
@@ -39,22 +43,22 @@ MEMORY
 
 SECTIONS
 {
-   .resetisr        : > S0RAM_RESETISR
-   .vtable          : > S0_S1_S2RAM  /* Application placed vector table */
-   .text            : >> C1RAM | C0RAM | S0_S1_S2RAM
-   .TI.ramfunc      : > C0RAM
-   .cinit           : > C0RAM | S0_S1_S2RAM
-   .pinit           : > C0RAM
-   .switch          : > C0RAM
-   .sysmem          : > C0RAM
+   .resetisr        : > CMBANK0_RESETISR
+   .vftable         : > CMBANK0_SECTOR0_1_2   /* Application placed vector table in Flash*/
+   .vtable          : > S0RAM             /* Application placed vector table in RAM*/
+   .text            : >> CMBANK0_SECTOR0_1_2 | CMBANK0_SECTOR3
+   .cinit           : > CMBANK0_SECTOR0_1_2
+   .pinit           : > CMBANK0_SECTOR0_1_2
+   .switch          : > CMBANK0_SECTOR0_1_2
+   .sysmem          : > C1RAM
 
    .stack           : > C1RAM
    .ebss            : > C1RAM
-   .econst          : > C1RAM
+   .econst          : > CMBANK0_SECTOR0_1_2
    .esysmem         : > C1RAM
-   .data            : > S3RAM
-   .bss             : > S3RAM
-   .const           : > C1RAM
+   .data            : > C1RAM
+   .bss             : > C1RAM
+   .const           : > CMBANK0_SECTOR0_1_2
 
     MSGRAM_CM_TO_CPU1 : > CMTOCPU1MSGRAM0, type=NOINIT
     MSGRAM_CM_TO_CPU1_ECAT : > CMTOCPU1MSGRAM0_ECAT, type=NOINIT
@@ -63,6 +67,15 @@ SECTIONS
     MSGRAM_CPU1_TO_CM_ECAT : > CPU1TOCMMSGRAM0_ECAT, type=NOINIT
     MSGRAM_CPU2_TO_CM : > CPU2TOCMMSGRAM0, type=NOINIT
 
+    .TI.ramfunc : {} LOAD = CMBANK0_SECTOR0_1_2 | CMBANK0_SECTOR3,
+                           RUN = S0RAM | S1RAM | S2RAM,
+                           LOAD_START(RamfuncsLoadStart),
+                           LOAD_SIZE(RamfuncsLoadSize),
+                           LOAD_END(RamfuncsLoadEnd),
+                           RUN_START(RamfuncsRunStart),
+                           RUN_SIZE(RamfuncsRunSize),
+                           RUN_END(RamfuncsRunEnd),
+                           ALIGN(8)
 }
 
 /*

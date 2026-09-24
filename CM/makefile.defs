@@ -3,23 +3,68 @@
 CM_ECAT_ROOT := C:/ti/c2000/C2000Ware_26_00_00_00/libraries/communications/Ethercat/f2838x
 CM_ECAT_HAL_SRC := $(CM_ECAT_ROOT)/source/ethercat_slave_cm_hal.c
 CM_ECAT_HAL_INC := $(CM_ECAT_ROOT)/include
-CM_ECAT_OBJ := ./APP/ecat/ethercat_slave_cm_hal.obj
-CM_ECAT_DEP := ./APP/ecat/ethercat_slave_cm_hal.d
+CM_ECAT_OBJ := APP/ecat/ethercat_slave_cm_hal.obj
+CM_ECAT_DEP := APP/ecat/ethercat_slave_cm_hal.d
+
+CM_SSC_ROOT := C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/ssc_stack
+CM_SSC_OBJS := \
+ssc_stack/coeappl.obj \
+ssc_stack/ecatappl.obj \
+ssc_stack/ecatcoe.obj \
+ssc_stack/ecatslv.obj \
+ssc_stack/ecat_motor_appl.obj \
+ssc_stack/f2838x_cm_hw.obj \
+ssc_stack/f2838x_cm_system.obj \
+ssc_stack/mailbox.obj \
+ssc_stack/objdef.obj \
+ssc_stack/sdoserv.obj
+CM_SSC_DEPS := \
+ssc_stack/coeappl.d \
+ssc_stack/ecatappl.d \
+ssc_stack/ecatcoe.d \
+ssc_stack/ecatslv.d \
+ssc_stack/ecat_motor_appl.d \
+ssc_stack/f2838x_cm_hw.d \
+ssc_stack/f2838x_cm_system.d \
+ssc_stack/mailbox.d \
+ssc_stack/objdef.d \
+ssc_stack/sdoserv.d
 
 # Make the official CM HAL header visible to the generated CM compile rule.
-GEN_OPTS__FLAG += --include_path="$(CM_ECAT_HAL_INC)"
+GEN_OPTS__FLAG += --include_path="$(CM_ECAT_HAL_INC)" \
+                  --include_path="$(CM_SSC_ROOT)" \
+                  --define=ETHERCAT_STACK \
+                  --define=USE_DEFAULT_MAIN=0
 
 C_DEPS += \
-$(CM_ECAT_DEP)
+$(CM_ECAT_DEP) \
+$(CM_SSC_DEPS)
 
 OBJS += \
-$(CM_ECAT_OBJ)
+$(CM_ECAT_OBJ) \
+$(CM_SSC_OBJS)
 
 ORDERED_OBJS += \
-"$(CM_ECAT_OBJ)"
+"$(CM_ECAT_OBJ)" \
+$(CM_SSC_OBJS)
+
+# 让 CCS 的 Clean 同时删除手动接入的 HAL/SSC 目标文件，避免旧缓存冒充成功。
+EXE_OUTPUTS__QUOTED += \
+"$(CM_ECAT_OBJ)" \
+"$(CM_ECAT_DEP)" \
+$(foreach obj,$(CM_SSC_OBJS),"$(obj)") \
+$(foreach dep,$(CM_SSC_DEPS),"$(dep)")
 
 $(CM_ECAT_OBJ): $(CM_ECAT_HAL_SRC)
 	@echo 'Arm Compiler - building official EtherCAT CM HAL: "$<"'
-	"C:/ti/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=none -me -Ooff --include_path="C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM" --include_path="C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/device" --include_path="$(CM_ECAT_HAL_INC)" --include_path="C:/ti/c2000/C2000Ware_26_00_00_00/driverlib/f2838x/driverlib_cm/" --include_path="C:/ti/ti-cgt-arm_20.2.7.LTS/include" --define=DEBUG --define=_FLASH --diag_warning=225 --diag_wrap=off --display_error_number --gen_func_subsections=on --preproc_with_compile --preproc_dependency="APP/ecat/ethercat_slave_cm_hal.d_raw" --obj_directory="APP/ecat" "$<"
+	"C:/ti/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=none -me -Ooff --include_path="C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM" --include_path="C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/device" --include_path="$(CM_ECAT_HAL_INC)" --include_path="$(CM_SSC_ROOT)" --include_path="C:/ti/c2000/C2000Ware_26_00_00_00/driverlib/f2838x/driverlib_cm/" --include_path="C:/ti/ti-cgt-arm_20.2.7.LTS/include" --define=DEBUG --define=_FLASH --define=ETHERCAT_STACK --define=USE_DEFAULT_MAIN=0 --diag_warning=225 --diag_wrap=off --display_error_number --gen_func_subsections=on --preproc_with_compile --preproc_dependency="APP/ecat/ethercat_slave_cm_hal.d_raw" --obj_directory="APP/ecat" "$<"
 	@echo 'Finished official EtherCAT CM HAL'
+	@echo ' '
+
+# SSC 生成源码使用带目录的规则，避免 CCS 默认的 ../%.c 规则解析失败。
+ssc_stack/%.obj: ../ssc_stack/%.c
+	@echo 'Arm Compiler - building SSC file: "$<"'
+	@if not exist "ssc_stack" mkdir "ssc_stack"
+	"C:/ti/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=none -me -Ooff --include_path="C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM" --include_path="C:/Users/yangshilin/Desktop/Embedded Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/device" --include_path="$(CM_ECAT_HAL_INC)" --include_path="$(CM_SSC_ROOT)" --include_path="C:/ti/c2000/C2000Ware_26_00_00_00/driverlib/f2838x/driverlib_cm/" --include_path="C:/ti/ti-cgt-arm_20.2.7.LTS/include" --define=DEBUG --define=_FLASH --define=ETHERCAT_STACK --define=USE_DEFAULT_MAIN=0 --diag_warning=225 --diag_wrap=off --display_error_number --gen_func_subsections=on --preproc_with_compile --preproc_dependency="ssc_stack/$*.d_raw" --obj_directory="ssc_stack" "$<"
+	@echo 'Finished SSC build: "$<"'
 	@echo ' '

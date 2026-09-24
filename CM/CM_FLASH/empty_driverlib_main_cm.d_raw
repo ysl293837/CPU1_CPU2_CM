@@ -69,5 +69,20 @@ empty_driverlib_main_cm.obj: C:/Users/yangshilin/Desktop/Embedded\\ Learning/DSP
 empty_driverlib_main_cm.obj: C:/ti/ti-cgt-arm_20.2.7.LTS/include/stddef.h
 empty_driverlib_main_cm.obj: C:/ti/c2000/C2000Ware_26_00_00_00/libraries/communications/Ethercat/f2838x/include/ethercat_slave_cm_hal.h
 empty_driverlib_main_cm.obj: C:/Users/yangshilin/Desktop/Embedded\\ Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/device/cm.h
+empty_driverlib_main_cm.obj: C:/Users/yangshilin/Desktop/Embedded\\ Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/ssc_stack/ecat_def.h
+empty_driverlib_main_cm.obj: C:/ti/ti-cgt-arm_20.2.7.LTS/include/stdlib.h
+empty_driverlib_main_cm.obj: C:\Users\yangshilin\Desktop\Embedded\\ Learning\DSP_PMSM_project\TEST\me\c28388_4.0\Dual_CPU\CM\ssc_stack\f2838x_cm_system.h
+empty_driverlib_main_cm.obj: C:/Users/yangshilin/Desktop/Embedded\\ Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/ssc_stack/applInterface.h
+empty_driverlib_main_cm.obj: C:/ti/ti-cgt-arm_20.2.7.LTS/include/stdlib.h
+empty_driverlib_main_cm.obj: C:\Users\yangshilin\Desktop\Embedded\\ Learning\DSP_PMSM_project\TEST\me\c28388_4.0\Dual_CPU\CM\ssc_stack\esc.h
+empty_driverlib_main_cm.obj: C:\Users\yangshilin\Desktop\Embedded\\ Learning\DSP_PMSM_project\TEST\me\c28388_4.0\Dual_CPU\CM\ssc_stack\ecatslv.h
+empty_driverlib_main_cm.obj: C:\Users\yangshilin\Desktop\Embedded\\ Learning\DSP_PMSM_project\TEST\me\c28388_4.0\Dual_CPU\CM\ssc_stack\esc.h
+empty_driverlib_main_cm.obj: C:\Users\yangshilin\Desktop\Embedded\\ Learning\DSP_PMSM_project\TEST\me\c28388_4.0\Dual_CPU\CM\ssc_stack\f2838x_cm_hw.h
+empty_driverlib_main_cm.obj: C:\Users\yangshilin\Desktop\Embedded\\ Learning\DSP_PMSM_project\TEST\me\c28388_4.0\Dual_CPU\CM\ssc_stack\esc.h
+empty_driverlib_main_cm.obj: C:\Users\yangshilin\Desktop\Embedded\\ Learning\DSP_PMSM_project\TEST\me\c28388_4.0\Dual_CPU\CM\ssc_stack\objdef.h
+empty_driverlib_main_cm.obj: C:\Users\yangshilin\Desktop\Embedded\\ Learning\DSP_PMSM_project\TEST\me\c28388_4.0\Dual_CPU\CM\ssc_stack\sdoserv.h
+empty_driverlib_main_cm.obj: C:\Users\yangshilin\Desktop\Embedded\\ Learning\DSP_PMSM_project\TEST\me\c28388_4.0\Dual_CPU\CM\ssc_stack\ecatcoe.h
+empty_driverlib_main_cm.obj: C:\Users\yangshilin\Desktop\Embedded\\ Learning\DSP_PMSM_project\TEST\me\c28388_4.0\Dual_CPU\CM\ssc_stack\mailbox.h
+empty_driverlib_main_cm.obj: C:\Users\yangshilin\Desktop\Embedded\\ Learning\DSP_PMSM_project\TEST\me\c28388_4.0\Dual_CPU\CM\ssc_stack\ecatappl.h
 empty_driverlib_main_cm.obj: ..\../ipc_protocol.h
 empty_driverlib_main_cm.obj: ..\ecat_motor_app.h

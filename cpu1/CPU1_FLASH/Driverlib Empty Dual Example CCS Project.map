@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v25.11.0                    
 ******************************************************************************
->> Linked Wed Sep  2 11:22:16 2026
+>> Linked Wed Sep  2 17:39:58 2026
 
 OUTPUT FILE NAME:   <Driverlib Empty Dual Example CCS Project.out>
 ENTRY POINT SYMBOL: "code_start"  address: 00080000

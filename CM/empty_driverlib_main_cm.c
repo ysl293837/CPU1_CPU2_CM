@@ -45,6 +45,7 @@
 #include "driverlib_cm.h"
 #include "cm.h"
 #include "ethercat_slave_cm_hal.h"
+#include "applInterface.h"
 #include "../ipc_protocol.h"
 #include "ecat_motor_app.h"
 
@@ -66,13 +67,6 @@ volatile uint32_t g_ecat_pdo_update_count = 0UL;           // 遥测 TxPDO 影�
 volatile uint32_t g_ecat_status_update_count = 0UL;        // 状态 TxPDO 影子区更新次数
 volatile uint32_t g_ecat_command_apply_count = 0UL;        // RxPDO 命令成功应用次数
 volatile uint16_t g_ecat_al_state = 0U;                    // 当前 EtherCAT 应用层状态机状态
-
-/* 1. 定义准备映射到 SSC 的电机遥测 TxPDO */
-typedef struct
-{
-    int32_t encoderCount;                                  // 映射对象 0x6000:01 的编码器计数
-    float currentSpeed;                                    // 映射对象 0x6000:02 的当前机械转速
-} ECAT_MotorTelemetryTxPDO_t;
 
 volatile ECAT_MotorTelemetryTxPDO_t g_ecat_motor_telemetry_txpdo = {0L, 0.0f}; // CPU1 遥测的 EtherCAT 影子 TxPDO
 volatile ECAT_MotorCommandRxPDO_t g_ecat_motor_command_rxpdo = {0UL, 0UL, 0UL, 0UL}; // 等待 SSC 写入的 EtherCAT 命令影子 RxPDO
@@ -336,7 +330,20 @@ static void ECAT_Status_UpdateTxPDOShadow(void)
     }
 }
 
-/* 11. 初始化 CM 并持续维护 EtherCAT 应用数据 */
+/* 11. 供 SSC 的 APPL_Application 每周期调用，桥接 EtherCAT 与 CPU1 */
+void ECAT_MotorApplication_Process(void)
+{
+    (void)ECAT_MotorCommand_ApplyRxPDO(&g_ecat_motor_command_rxpdo); // 仅在 RxPDO 序号变化时转发一次命令
+    ECAT_Telemetry_UpdateTxPDOShadow();                   // 刷新来自 CPU1 的编码器和转速数据
+    ECAT_Status_UpdateTxPDOShadow();                      // 刷新运行状态、目标速度和命令应答
+
+    if(g_ecat_hw_init_status == ESC_HW_INIT_SUCCESS)      // 仅在 ESC 可访问时读取 AL 状态机
+    {
+        g_ecat_al_state = ESC_readWord(ECAT_AL_STATUS_REGISTER) & 0x000FU; // 保存 INIT/PREOP/SAFEOP/OP 状态
+    }
+}
+
+/* 12. 初始化 CM、IPC、ESC 硬件与完整 SSC 从站协议栈 */
 void main(void)
 {
     CM_init();                                            // 初始化 CM 内核、向量表和基础时钟
@@ -345,16 +352,19 @@ void main(void)
     CPU_clearPRIMASK();                                   // 打开 CM 中断响应以接收 CPU1 遥测
     g_ecat_hw_init_status = ESC_initHW();                 // 初始化 ESC 硬件访问、时钟和寄存器接口
 
-    /* 12. 等待 SSC 生成代码接入 RxPDO 和 TxPDO 影子区 */
-    while(1)                                              // 持续运行 CM EtherCAT 应用循环
+    if(g_ecat_hw_init_status == ESC_HW_INIT_SUCCESS)      // ESC 硬件成功初始化后才能启动 SSC 状态机
     {
-        (void)ECAT_MotorCommand_ApplyRxPDO(&g_ecat_motor_command_rxpdo); // 检查并转发新的 EtherCAT RxPDO 命令
-        ECAT_Telemetry_UpdateTxPDOShadow();               // 将 CPU1 遥测更新到 TxPDO 影子区
-        ECAT_Status_UpdateTxPDOShadow();                  // 将 CPU1 状态更新到 TxPDO 影子区
+        (void)MainInit();                                 // 初始化 SSC 的 AL、邮箱、CoE 和 PDO 状态机
+        bRunApplication = TRUE;                           // 允许 SSC 主循环开始处理 EtherCAT 报文
 
-        if(g_ecat_hw_init_status == ESC_HW_INIT_SUCCESS)  // ESC 硬件初始化成功后才读取 AL 状态
+        while(bRunApplication == TRUE)                    // 持续执行完整 EtherCAT 从站协议栈
         {
-            g_ecat_al_state = ESC_readWord(ECAT_AL_STATUS_REGISTER) & 0x000FU; // 读取 EtherCAT AL 状态机低四位
+            MainLoop();                                   // 处理状态转换、SDO/CoE、PDO 和应用层回调
         }
+    }
+
+    while(1)                                              // ESC 初始化失败时保持 CM 可调试且仍接收 CPU1 IPC
+    {
+        ECAT_MotorApplication_Process();                  // 持续更新诊断影子数据，不启动失效的协议栈
     }
 }

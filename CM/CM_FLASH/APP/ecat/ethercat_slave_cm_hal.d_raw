@@ -68,3 +68,6 @@ APP/ecat/ethercat_slave_cm_hal.obj: C:/ti/c2000/C2000Ware_26_00_00_00/driverlib/
 APP/ecat/ethercat_slave_cm_hal.obj: C:/ti/ti-cgt-arm_20.2.7.LTS/include/stddef.h
 APP/ecat/ethercat_slave_cm_hal.obj: C:/ti/ti-cgt-arm_20.2.7.LTS/include/string.h
 APP/ecat/ethercat_slave_cm_hal.obj: C:/ti/ti-cgt-arm_20.2.7.LTS/include/xlocale/_string.h
+APP/ecat/ethercat_slave_cm_hal.obj: C:/Users/yangshilin/Desktop/Embedded\\ Learning/DSP_PMSM_project/TEST/me/c28388_4.0/Dual_CPU/CM/ssc_stack/ecat_def.h
+APP/ecat/ethercat_slave_cm_hal.obj: C:/ti/ti-cgt-arm_20.2.7.LTS/include/stdlib.h
+APP/ecat/ethercat_slave_cm_hal.obj: C:\Users\yangshilin\Desktop\Embedded\\ Learning\DSP_PMSM_project\TEST\me\c28388_4.0\Dual_CPU\CM\ssc_stack\f2838x_cm_system.h
